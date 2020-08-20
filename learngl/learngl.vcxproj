@@ -86,15 +86,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\learngl\src\;$(SolutionDir)\Dependencies\GLEW\include;$(SolutionDir)\Dependencies\GLUT\include;$(SolutionDir)\Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\learngl\;$(SolutionDir)\Dependencies\GLEW\include\;$(SolutionDir)\Dependencies\GLUT\include\;$(SolutionDir)\Dependencies\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\GLEW\lib\Release\Win32;$(SolutionDir)\Dependencies\GLFW\lib-vc2019;%(AdditionalLibraryDirectories);$(SolutionDir)\Dependencies\GLUT\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\GLEW\lib\;$(SolutionDir)\Dependencies\GLFW\lib-vc2019;$(SolutionDir)\Dependencies\GLEW\lib\Release\Win32%(AdditionalLibraryDirectories);$(SolutionDir)\Dependencies\GLUT\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,17 +103,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\learngl\src\;$(SolutionDir)\Dependencies\GLEW\include;$(SolutionDir)\Dependencies\GLUT\include;$(SolutionDir)\Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\learngl\;$(SolutionDir)\Dependencies\GLEW\include\;$(SolutionDir)\Dependencies\GLUT\include\;$(SolutionDir)\Dependencies\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\GLEW\lib\Release\Win32;$(SolutionDir)\Dependencies\GLFW\lib-vc2019;$(SolutionDir)\Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories);$(SolutionDir)\Dependencies\GLUT\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\GLEW\lib\;$(SolutionDir)\Dependencies\GLFW\lib-vc2019;%(AdditionalLibraryDirectories);$(SolutionDir)\Dependencies\GLUT\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -145,15 +145,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="resources\Shaders\shader.h" />
     <ClInclude Include="src\graphics\Cl_window.h" />
     <ClInclude Include="src\dependencies.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="resources\Shaders\shader.cpp" />
     <ClCompile Include="src\graphics\Cl_window.cpp" />
-    <ClCompile Include="src\graphics\main.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="freeglut.dll" />
     <None Include="glew32.dll" />
+    <None Include="resources\Shaders\basic_shaders\core_fs.shader" />
+    <None Include="resources\Shaders\basic_shaders\core_vs.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

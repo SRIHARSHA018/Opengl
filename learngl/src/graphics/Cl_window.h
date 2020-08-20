@@ -1,5 +1,5 @@
 #pragma once
-#include"dependencies.h"
+#include"src/dependencies.h"
 namespace SJ_engine {
 	class Cl_window
 	{

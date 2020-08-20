@@ -21,16 +21,25 @@
     <ClInclude Include="src\dependencies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resources\Shaders\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\graphics\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics\Cl_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\Shaders\shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="freeglut.dll" />
     <None Include="glew32.dll" />
+    <None Include="resources\Shaders\basic_shaders\core_vs.shader" />
+    <None Include="resources\Shaders\basic_shaders\core_fs.shader" />
   </ItemGroup>
 </Project>

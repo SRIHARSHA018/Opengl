@@ -1,4 +1,4 @@
-#include "Cl_window.h"
+#include"Cl_window.h"
 namespace SJ_engine {
 	void ResizeWindow(GLFWwindow * window,int Width,int Height)
 	{
@@ -25,14 +25,22 @@ namespace SJ_engine {
 			std::cout << "Failed to load Glfw Window" << std::endl;
 			return false;
 		}
-		std::cout << "hello" << std::endl;
+		std::cout << "SJ_engine" << std::endl;
 		x_window = glfwCreateWindow(x_Win_Width, x_Win_Height, x_Name, NULL, NULL);
 		if(!x_window)
 		{
 			std::cout << "failed to create  a window" << std::endl;
 			return false;
 		}
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 6);
 		glfwMakeContextCurrent(x_window);
+		glewExperimental = GL_TRUE;
+		if (glewInit() != GLEW_OK)
+		{
+			std::cout << "Failed to intialize Glew" << std::endl;
+		}
 		glfwSetWindowSizeCallback(x_window, ResizeWindow);
 		return true;
 
@@ -48,6 +56,8 @@ namespace SJ_engine {
 	}
 	void Cl_window::clear()
 	{
+		glClearColor(0.f, 0.f, 0.f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
+
 }
