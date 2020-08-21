@@ -37,9 +37,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="freeglut.dll" />
-    <None Include="glew32.dll" />
     <None Include="resources\Shaders\basic_shaders\core_vs.shader" />
     <None Include="resources\Shaders\basic_shaders\core_fs.shader" />
+    <None Include="glfw3.dll" />
+    <None Include="glew32.dll" />
   </ItemGroup>
 </Project>
