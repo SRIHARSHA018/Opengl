@@ -68,16 +68,49 @@ namespace SJ_engine {
 
 		void shader::shaderdestroy()
 		{
+			//Deleting shader program
 			glDeleteProgram(x_Shader_Program);
 		}
 
 		unsigned int shader::createprogram(unsigned int Vshader, unsigned int Fshader)
 		{
+			//creating a shader program
 			unsigned int program = glCreateProgram();
 			glAttachShader(program, Vshader);
 			glAttachShader(program, Fshader);
 			glLinkProgram(program);
 			return program;
+		}
+
+		void shader::GenBindData()
+		{
+			//shading positions and indices
+			float positions[] =
+			{
+				-0.2,0,0,//0
+				0.2,0.2,0,//1
+				0.2,0,0,//2
+				-0.2,0.2,0//3
+			};
+			unsigned int indices[] =
+			{
+				0,1,2,
+				0,3,1
+			};
+			//buffers for positions
+			unsigned int buffers;
+			glGenBuffers(1, &buffers);
+			glBindBuffer(GL_ARRAY_BUFFER, buffers);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+			//vertex attributes enble and pointing them
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+			//index buffer
+			//it can manage buffer data like Duplicate vertices 
+			unsigned int indexbufferobj;
+			glGenBuffers(1, &indexbufferobj);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufferobj);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 		}
 
 	}

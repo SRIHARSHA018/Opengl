@@ -1,5 +1,6 @@
 #pragma once
 #include"src/dependencies.h"
+//CLASS for a Window
 namespace SJ_engine {
 	class Cl_window
 	{
@@ -16,6 +17,8 @@ namespace SJ_engine {
 		int x_Win_Height, x_Win_Width;
 		const char* x_Name;
 		GLFWwindow* x_window;
+	public:
+		void InputKeys();
 
 	};
 }

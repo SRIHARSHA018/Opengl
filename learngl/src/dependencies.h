@@ -8,7 +8,3 @@
 #include<string>
 #include<vector>
 #include"GLFW/glfw3.h"
-
-
-
-

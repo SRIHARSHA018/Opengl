@@ -1,5 +1,6 @@
 #pragma once
 #include"src/dependencies.h"
+//CLASS for shader
 namespace SJ_engine {
 	namespace SJ_shader {
 		class shader
@@ -14,6 +15,7 @@ namespace SJ_engine {
 				return x_Shader_Program;
 			}
 			unsigned int createprogram(unsigned int Vshader, unsigned int Fshader);
+			void GenBindData();
 		};
 	}
 }
