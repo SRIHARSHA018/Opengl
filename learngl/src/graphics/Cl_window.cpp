@@ -1,5 +1,24 @@
 #include"Cl_window.h"
 namespace SJ_engine {
+	//input keys processing 
+	void InputKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		switch (key) {
+		case GLFW_KEY_ESCAPE:
+			if (action == GLFW_PRESS)
+			{
+				std::cout << "esc pressed" << std::endl;
+				glfwSetWindowShouldClose(window, GL_TRUE);
+			}
+		break;
+		case GLFW_KEY_W:
+			if (action == GLFW_PRESS)
+			{
+				std::cout << "W pressed" << std::endl;
+
+			}
+		} 
+	}
 	//prototype for window resize when callback
 	void ResizeWindow(GLFWwindow * window,int Width,int Height)
 	{
@@ -40,8 +59,7 @@ namespace SJ_engine {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 6);
-		glfwMakeContextCurrent(x_window);
-		glewExperimental = GL_TRUE;
+		glfwMakeContextCurrent(x_window);		
 		if (glewInit() != GLEW_OK)
 		{
 			std::cout << "Failed to intialize Glew" << std::endl;
@@ -67,25 +85,19 @@ namespace SJ_engine {
 	//window poll events
 	void Cl_window::Update()
 	{
+		glfwGetCurrentContext();
+		glfwSwapInterval(1);
 		glfwSwapBuffers(x_window);
+		glfwSetKeyCallback(x_window, InputKeys);
 		glfwPollEvents();
+
 	}
 	//window clear events
 	void Cl_window::clear()
 	{
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	}
-	//Esc key closes window
-	void Cl_window::InputKeys()
-	{
-		if (glfwGetKey(x_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		{
-			std::cout << "User pressed exit" << std::endl;
-			//setting up window to close
-			glfwSetWindowShouldClose(x_window, true);
-			
-		}
 	}
 
 }

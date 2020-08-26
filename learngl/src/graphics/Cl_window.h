@@ -17,8 +17,6 @@ namespace SJ_engine {
 		int x_Win_Height, x_Win_Width;
 		const char* x_Name;
 		GLFWwindow* x_window;
-	public:
-		void InputKeys();
 
 	};
 }

@@ -1,6 +1,13 @@
 #include "shader.h"
 namespace SJ_engine {
 	namespace SJ_shader {
+		//Color Shifting algo
+		void shader::ColorIt(float r, float g, float b, float a)
+		{
+			
+			int location = glGetUniformLocation(x_Shader_Program, "uColor");
+			glUniform4f(location, r, g, b, a);
+		}
 		shader::shader()
 		{
 			char InfoLog[1024];
@@ -75,10 +82,18 @@ namespace SJ_engine {
 		unsigned int shader::createprogram(unsigned int Vshader, unsigned int Fshader)
 		{
 			//creating a shader program
+			int success;
 			unsigned int program = glCreateProgram();
 			glAttachShader(program, Vshader);
 			glAttachShader(program, Fshader);
 			glLinkProgram(program);
+			glGetProgramiv(program, GL_LINK_STATUS, &success);
+			if (!success)
+			{
+				char InfoLog[512];
+				glGetProgramInfoLog(program, 512, NULL, InfoLog);
+				std::cout << InfoLog << std::endl;
+			}
 			return program;
 		}
 
@@ -87,10 +102,10 @@ namespace SJ_engine {
 			//shading positions and indices
 			float positions[] =
 			{
-				-0.2,0,0,//0
-				0.2,0.2,0,//1
-				0.2,0,0,//2
-				-0.2,0.2,0//3
+				-0.2f,0,0,//0
+				0.2f,0.2f,0,//1
+				0.2f,0,0,//2
+				-0.2f,0.2f,0//3
 			};
 			unsigned int indices[] =
 			{

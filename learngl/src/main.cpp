@@ -15,8 +15,9 @@ int main()
 	//loop to progress
 	while (!Cl_window.closed())
 	{
-		Cl_window.InputKeys();
+		
 		Cl_window.clear();
+		shade.ColorIt(0.9f,0.3f,0.f,1.0f);
 		glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,nullptr);
 		Cl_window.Update();
 	}

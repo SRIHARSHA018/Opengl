@@ -7,7 +7,12 @@ namespace SJ_engine {
 		{
 		private:
 			unsigned int x_Shader_Program;
+			float r;
+			float g;
+			float b;
+			float a;
 		public:
+			void ColorIt(float r,float g,float b,float a);
 			shader();
 			void shaderdestroy();
 			unsigned int get_Program_Shader()
