@@ -7,20 +7,15 @@ namespace SJ_engine {
 		{
 		private:
 			unsigned int x_Shader_Program;
-			float r;
-			float g;
-			float b;
-			float a;
+			float r=0.3f, g=0.3f, b=0.2f,a=1.0f;
+			float inc=0.005f;
 		public:
-			void ColorIt(float r,float g,float b,float a);
 			shader();
-			void shaderdestroy();
-			unsigned int get_Program_Shader()
-			{
-				return x_Shader_Program;
-			}
-			unsigned int createprogram(unsigned int Vshader, unsigned int Fshader);
 			void GenBindData();
+			void shaderdestroy();
+			void UseShaderProgram();
+			void ColorIt();
+			unsigned int createprogram(unsigned int Vshader, unsigned int Fshader);
 		};
 	}
 }

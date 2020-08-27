@@ -11,13 +11,13 @@ int main()
 	//buffer gen and binding
 	shader shade;
 	shade.GenBindData();
-	shade.get_Program_Shader();
 	//loop to progress
 	while (!Cl_window.closed())
 	{
 		
 		Cl_window.clear();
-		shade.ColorIt(0.9f,0.3f,0.f,1.0f);
+		shade.ColorIt();
+		shade.UseShaderProgram();
 		glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,nullptr);
 		Cl_window.Update();
 	}

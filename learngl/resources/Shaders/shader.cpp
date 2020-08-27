@@ -1,13 +1,6 @@
 #include "shader.h"
 namespace SJ_engine {
 	namespace SJ_shader {
-		//Color Shifting algo
-		void shader::ColorIt(float r, float g, float b, float a)
-		{
-			
-			int location = glGetUniformLocation(x_Shader_Program, "uColor");
-			glUniform4f(location, r, g, b, a);
-		}
 		shader::shader()
 		{
 			char InfoLog[1024];
@@ -70,13 +63,6 @@ namespace SJ_engine {
 
 			}
 			x_Shader_Program = createprogram(VertexShader, FragmentShader);
-			glUseProgram(x_Shader_Program);
-		}
-
-		void shader::shaderdestroy()
-		{
-			//Deleting shader program
-			glDeleteProgram(x_Shader_Program);
 		}
 
 		unsigned int shader::createprogram(unsigned int Vshader, unsigned int Fshader)
@@ -94,7 +80,16 @@ namespace SJ_engine {
 				glGetProgramInfoLog(program, 512, NULL, InfoLog);
 				std::cout << InfoLog << std::endl;
 			}
+			glValidateProgram(program);
+			glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
+			if (!success)
+			{
+				char InfoLog[512];
+				glGetProgramInfoLog(program, 512, NULL, InfoLog);
+				std::cout << "ERROR in validating"<<InfoLog << std::endl;
+			}
 			return program;
+
 		}
 
 		void shader::GenBindData()
@@ -119,13 +114,44 @@ namespace SJ_engine {
 			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 			//vertex attributes enble and pointing them
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,0, 0);
 			//index buffer
 			//it can manage buffer data like Duplicate vertices 
 			unsigned int indexbufferobj;
 			glGenBuffers(1, &indexbufferobj);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufferobj);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		}
+
+		void shader::ColorIt()
+		{
+			
+			int location = glGetUniformLocation(x_Shader_Program, "uColor");
+			//red channel
+			std::cout << inc << std::endl;
+			if (r > 1.f)
+			{
+				inc = -0.007f;
+			}
+			else if (r < 0.0f)
+			{
+				inc = 0.007f;
+			}
+			r += inc;
+			glUniform4f(location, r, g, b, a);
+		}
+
+
+		void shader::UseShaderProgram()
+		{
+			glUseProgram(x_Shader_Program);
+		}
+
+
+		void shader::shaderdestroy()
+		{
+			//Deleting shader program
+			glDeleteProgram(x_Shader_Program);
 		}
 
 	}

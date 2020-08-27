@@ -17,6 +17,7 @@ namespace SJ_engine {
 				std::cout << "W pressed" << std::endl;
 
 			}
+		break;
 		} 
 	}
 	//prototype for window resize when callback
@@ -59,12 +60,13 @@ namespace SJ_engine {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 6);
-		glfwMakeContextCurrent(x_window);		
+		glfwMakeContextCurrent(x_window);
+		glfwSwapInterval(1);
 		if (glewInit() != GLEW_OK)
 		{
 			std::cout << "Failed to intialize Glew" << std::endl;
 		}
-		//Render settings for openGL 4.6
+		//Render settings for openGL 4.6 Culling and blend func
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -85,8 +87,6 @@ namespace SJ_engine {
 	//window poll events
 	void Cl_window::Update()
 	{
-		glfwGetCurrentContext();
-		glfwSwapInterval(1);
 		glfwSwapBuffers(x_window);
 		glfwSetKeyCallback(x_window, InputKeys);
 		glfwPollEvents();
