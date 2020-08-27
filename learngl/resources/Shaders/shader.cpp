@@ -127,8 +127,7 @@ namespace SJ_engine {
 		{
 			
 			int location = glGetUniformLocation(x_Shader_Program, "uColor");
-			//red channel
-			std::cout << inc << std::endl;
+			//red channel shift
 			if (r > 1.f)
 			{
 				inc = -0.007f;

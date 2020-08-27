@@ -1,3 +1,4 @@
+//includes
 #include"dependencies.h"
 #include"src/graphics/Cl_window.h"
 #include"resources/Shaders/shader.h"
@@ -23,6 +24,7 @@ int main()
 	}
 	//destroy the shader program
 	shade.shaderdestroy();
+	//exits application
 	return 0;
 
 }

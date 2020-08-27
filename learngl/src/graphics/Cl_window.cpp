@@ -61,7 +61,9 @@ namespace SJ_engine {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 6);
 		glfwMakeContextCurrent(x_window);
+		//swap interval for swap buffers period in order to vsync 
 		glfwSwapInterval(1);
+		//GLEW intialization
 		if (glewInit() != GLEW_OK)
 		{
 			std::cout << "Failed to intialize Glew" << std::endl;
