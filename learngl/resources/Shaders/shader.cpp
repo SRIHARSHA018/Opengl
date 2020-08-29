@@ -8,7 +8,7 @@ namespace SJ_engine {
 			std::string temp = "";
 			std::string srcstr = "";
 			//vertex shader
-			file.open("resources/shaders/basic_shaders/core_vs.shader");
+			file.open("resources/Shaders/basic_shaders/core_vs.shader");
 			if (file.is_open())
 			{
 				while (std::getline(file, temp))
@@ -86,7 +86,7 @@ namespace SJ_engine {
 			{
 				char InfoLog[512];
 				glGetProgramInfoLog(program, 512, NULL, InfoLog);
-				std::cout << "ERROR in validating"<<InfoLog << std::endl;
+				std::cout << "ERROR in validating" << InfoLog << std::endl;
 			}
 			return program;
 
@@ -97,15 +97,16 @@ namespace SJ_engine {
 			//shading positions and indices
 			float positions[] =
 			{
-				-0.2f,0,0,//0
-				0.2f,0.2f,0,//1
-				0.2f,0,0,//2
-				-0.2f,0.2f,0//3
+				-0.5f,-0.1f,0.f,//0
+				0.f,0.5f,0.f,//1
+				0.5f,-0.1f,0.f,//2
+				0.f,-0.5f,0.f//3
+
 			};
 			unsigned int indices[] =
 			{
 				0,1,2,
-				0,3,1
+				2,3,0
 			};
 			//buffers for positions
 			unsigned int buffers;
@@ -114,7 +115,7 @@ namespace SJ_engine {
 			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 			//vertex attributes enble and pointing them
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,0, 0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 			//index buffer
 			//it can manage buffer data like Duplicate vertices 
 			unsigned int indexbufferobj;
@@ -123,21 +124,31 @@ namespace SJ_engine {
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 		}
 
-		void shader::ColorIt()
+		void shader::ColorIt(Cl_window* obj)
 		{
-			
+			x_ColorShiftKey = obj->ColorShift;
 			int location = glGetUniformLocation(x_Shader_Program, "uColor");
 			//red channel shift
-			if (r > 1.f)
+			int locshader = glGetUniformLocation(x_Shader_Program, "shader");
+			if (x_ColorShiftKey)
 			{
-				inc = -0.007f;
+				glUniform1i(locshader, 1);
+				if (r > 1.f)
+				{
+					inc = -0.007f;
+				}
+				else if (r < 0.0f)
+				{
+					inc = 0.007f;
+				}
+				r += inc;
 			}
-			else if (r < 0.0f)
+			else
 			{
-				inc = 0.007f;
+				glUniform1i(locshader, 0);
 			}
-			r += inc;
 			glUniform4f(location, r, g, b, a);
+
 		}
 
 
@@ -152,7 +163,6 @@ namespace SJ_engine {
 			//Deleting shader program
 			glDeleteProgram(x_Shader_Program);
 		}
-
 	}
 }
 

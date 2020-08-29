@@ -1,6 +1,5 @@
 //includes
 #include"dependencies.h"
-#include"src/graphics/Cl_window.h"
 #include"resources/Shaders/shader.h"
 //Main function
 int main()
@@ -12,13 +11,14 @@ int main()
 	//buffer gen and binding
 	shader shade;
 	shade.GenBindData();
+	//program intiating
+	shade.UseShaderProgram();
 	//loop to progress
 	while (!Cl_window.closed())
 	{
 		
 		Cl_window.clear();
-		shade.ColorIt();
-		shade.UseShaderProgram();
+		shade.ColorIt(&Cl_window);
 		glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,nullptr);
 		Cl_window.Update();
 	}

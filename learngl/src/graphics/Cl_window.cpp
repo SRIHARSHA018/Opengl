@@ -1,8 +1,9 @@
 #include"Cl_window.h"
 namespace SJ_engine {
-	//input keys processing 
+	//input keys processing
 	void InputKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
+		Cl_window* win = (Cl_window*)(glfwGetWindowUserPointer(window));
 		switch (key) {
 		case GLFW_KEY_ESCAPE:
 			if (action == GLFW_PRESS)
@@ -18,12 +19,19 @@ namespace SJ_engine {
 
 			}
 		break;
+		case GLFW_KEY_1:
+			if (action == GLFW_PRESS)
+			{
+				std::cout << "1 is pressed\n" << "intializing vertex_position color"<<"or inerpolation color" << std::endl;
+				win->ColorShift = false;
+			}
+		break;
 		} 
 	}
 	//prototype for window resize when callback
 	void ResizeWindow(GLFWwindow * window,int Width,int Height)
 	{
-		glViewport(0, 0, Width, Height);
+		glViewport(0, 0,Width,Height);
 	}
 	//constrctor to intialize the window creation
 	Cl_window::Cl_window(int Width, int Height, const char* Title)
@@ -61,6 +69,7 @@ namespace SJ_engine {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 6);
 		glfwMakeContextCurrent(x_window);
+		glfwSetWindowUserPointer(x_window, this);
 		//swap interval for swap buffers period in order to vsync 
 		glfwSwapInterval(1);
 		//GLEW intialization
@@ -78,6 +87,8 @@ namespace SJ_engine {
 		glPolygonMode(GL_FRONT_FACE, GL_LINE);
 		//Resize callback
 		glfwSetWindowSizeCallback(x_window, ResizeWindow);
+		//callback for input keys
+		glfwSetKeyCallback(x_window, InputKeys);
 		return true;
 
 	}
@@ -90,7 +101,6 @@ namespace SJ_engine {
 	void Cl_window::Update()
 	{
 		glfwSwapBuffers(x_window);
-		glfwSetKeyCallback(x_window, InputKeys);
 		glfwPollEvents();
 
 	}
