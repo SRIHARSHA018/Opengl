@@ -1,5 +1,4 @@
 #pragma once
-#include"src/dependencies.h"
 #include"src/graphics/Cl_window.h"
 //CLASS for shader
 namespace SJ_engine {
@@ -13,10 +12,14 @@ namespace SJ_engine {
 			bool x_ColorShiftKey = true;
 		public:
 			shader();
-			void ColorIt(Cl_window* obj);
+			glm::mat4 model = glm::mat4(1.f);
+			glm::mat4 view = glm::mat4(1.f);
+			glm::mat4 Projection = glm::mat4(1.f);
+			unsigned int Get_shader_program(){	return x_Shader_Program; }
+			void Color_RotateIt(Cl_window* obj);
 			void GenBindData();
 			void shaderdestroy();
-			void UseShaderProgram();
+			void UseShaderProgram(Cl_window* obj);
 			unsigned int createprogram(unsigned int Vshader, unsigned int Fshader);
 
 		};

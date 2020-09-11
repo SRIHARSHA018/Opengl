@@ -1,9 +1,9 @@
 #include"Cl_window.h"
 namespace SJ_engine {
 	//input keys processing
-	void InputKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void Cl_window::InputKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		Cl_window* win = (Cl_window*)(glfwGetWindowUserPointer(window));
+		Cl_window* win = static_cast<Cl_window*>(glfwGetWindowUserPointer(window));
 		switch (key) {
 		case GLFW_KEY_ESCAPE:
 			if (action == GLFW_PRESS)
@@ -70,6 +70,8 @@ namespace SJ_engine {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 6);
 		glfwMakeContextCurrent(x_window);
 		glfwSetWindowUserPointer(x_window, this);
+		glfwGetFramebufferSize(x_window, &ScreenWidth, &ScreenHeight);
+		AspectRatio = (float)ScreenWidth / (float)ScreenHeight;
 		//swap interval for swap buffers period in order to vsync 
 		glfwSwapInterval(1);
 		//GLEW intialization
@@ -111,5 +113,6 @@ namespace SJ_engine {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
+
 
 }

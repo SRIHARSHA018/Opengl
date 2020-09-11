@@ -1,7 +1,7 @@
 #pragma once
-
-#include <Windows.h>
-#include"GL/glew.h"
+#define PI (3.14)
+#define Matrix_view(view) (	std::cout << view[0][0] << "\t" << view[0][1] << "\t" << view[0][2] << std::endl<< view[1][0] << "\t" << view[1][1] << "\t" << view[1][2] << std::endl<< view[2][0] << "\t" << view[2][1] << "\t" << view[2][2] << std::endl)
+#include<GL/glew.h>
 #include<math.h>
 #include<iostream>
 #include<fstream>

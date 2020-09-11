@@ -97,16 +97,14 @@ namespace SJ_engine {
 			//shading positions and indices
 			float positions[] =
 			{
-				-0.5f,-0.1f,0.f,//0
-				0.f,0.5f,0.f,//1
-				0.5f,-0.1f,0.f,//2
-				0.f,-0.5f,0.f//3
-
+				-0.5f,-0.5f,0.f,//0
+				-0.5f,0.5f,0,//1
+				0.5f,0.5f,0.f,//2
+				0.5,-0.5f,0//3
 			};
 			unsigned int indices[] =
 			{
-				0,1,2,
-				2,3,0
+				0,1,2,3
 			};
 			//buffers for positions
 			unsigned int buffers;
@@ -115,7 +113,7 @@ namespace SJ_engine {
 			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 			//vertex attributes enble and pointing them
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+			glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, 0, 0);
 			//index buffer
 			//it can manage buffer data like Duplicate vertices 
 			unsigned int indexbufferobj;
@@ -124,7 +122,8 @@ namespace SJ_engine {
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 		}
 
-		void shader::ColorIt(Cl_window* obj)
+
+		void shader::Color_RotateIt(Cl_window* obj)
 		{
 			x_ColorShiftKey = obj->ColorShift;
 			int location = glGetUniformLocation(x_Shader_Program, "uColor");
@@ -150,13 +149,32 @@ namespace SJ_engine {
 			glUniform4f(location, r, g, b, a);
 
 		}
-
-
-		void shader::UseShaderProgram()
+		void shader::UseShaderProgram(Cl_window* obj)
 		{
 			glUseProgram(x_Shader_Program);
-		}
+			//Projection and View
+			unsigned int view_loc;
+			unsigned int Proj_loc;
+			unsigned int model_loc;
+			glm::vec3 Position = glm::vec3(0.f, 0.f, 0.f);
+			glm::vec3 front = glm::vec3(0.f, 0.f, -1.f);
+			glm::vec3 WorldUp = glm::vec3(0.f, 1.f, 0.f);
+			model = glm::translate(model, glm::vec3(0.f, 0.f, -1.f));
+			model = glm::rotate(model,0.f, glm::vec3(1.f, 0.f, 0.f));
+			model = glm::rotate(model,45.f, glm::vec3(0.f, 1.f, 0.f));
+			model = glm::rotate(model, 0.f, glm::vec3(0.f, 0.f, 1.f));
+			model = glm::scale(model, glm::vec3(1.f, 1.f, 1.f));
+			view = glm::lookAt(Position, Position + front, WorldUp);
+			Projection = glm::perspective(glm::radians(90.f), obj->AspectRatio, 0.1f, 100.f);
+			model_loc = glGetUniformLocation(x_Shader_Program, "u_model");
+			view_loc = glGetUniformLocation(x_Shader_Program, "u_View");
+			Proj_loc = glGetUniformLocation(x_Shader_Program, "u_Projection");
+			glUniformMatrix4fv(Proj_loc, 1, GL_FALSE, glm::value_ptr(Projection));
+			glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
+			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
+			
 
+		}
 
 		void shader::shaderdestroy()
 		{
