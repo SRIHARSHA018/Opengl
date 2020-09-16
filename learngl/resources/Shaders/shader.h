@@ -11,7 +11,7 @@ namespace SJ_engine {
 			float inc = 0.005f;
 			bool x_ColorShiftKey = true;
 		public:
-			shader();
+			shader(Cl_window* obj);
 			glm::mat4 model = glm::mat4(1.f);
 			glm::mat4 view = glm::mat4(1.f);
 			glm::mat4 Projection = glm::mat4(1.f);
@@ -20,6 +20,8 @@ namespace SJ_engine {
 			void GenBindData();
 			void shaderdestroy();
 			void UseShaderProgram(Cl_window* obj);
+			unsigned int getviewmatrix_loc() { return glGetUniformLocation(x_Shader_Program, "u_View");}
+			unsigned int getProjectionmatrix_loc() { return glGetUniformLocation(x_Shader_Program, "u_Projection"); }
 			unsigned int createprogram(unsigned int Vshader, unsigned int Fshader);
 
 		};

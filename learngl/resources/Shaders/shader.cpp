@@ -1,7 +1,7 @@
 #include "shader.h"
 namespace SJ_engine {
 	namespace SJ_shader {
-		shader::shader()
+		shader::shader(Cl_window* obj)
 		{
 			char InfoLog[1024];
 			std::ifstream file;
@@ -63,6 +63,16 @@ namespace SJ_engine {
 
 			}
 			x_Shader_Program = createprogram(VertexShader, FragmentShader);
+			UseShaderProgram(obj);
+			//model matrix
+			unsigned int model_loc;
+			model = glm::translate(model, glm::vec3(0.f, 0.f, -1.f));
+			model = glm::rotate(model, 45.f, glm::vec3(1.f, 0.f, 0.f));
+			model = glm::rotate(model, 45.f, glm::vec3(0.f, 1.f, 0.f));
+			model = glm::rotate(model, 0.f, glm::vec3(0.f, 0.f, 1.f));
+			model = glm::scale(model, glm::vec3(1.f, 1.f, 1.f));
+			model_loc = glGetUniformLocation(x_Shader_Program, "u_model");
+			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
 		}
 
 		unsigned int shader::createprogram(unsigned int Vshader, unsigned int Fshader)
@@ -97,14 +107,37 @@ namespace SJ_engine {
 			//shading positions and indices
 			float positions[] =
 			{
-				-0.5f,-0.5f,0.f,//0
-				-0.5f,0.5f,0,//1
-				0.5f,0.5f,0.f,//2
-				0.5,-0.5f,0//3
+				// front
+				-1.0, -1.0,  1.0,
+				 1.0, -1.0,  1.0,
+				 1.0,  1.0,  1.0,
+				-1.0,  1.0,  1.0,
+				// back
+				-1.0, -1.0, -1.0,
+				 1.0, -1.0, -1.0,
+				 1.0,  1.0, -1.0,
+				-1.0,  1.0, -1.0
 			};
 			unsigned int indices[] =
 			{
-				0,1,2,3
+				// front
+				0, 1, 2,
+				2, 3, 0,
+				// right
+				1, 5, 6,
+				6, 2, 1,
+				// back
+				7, 6, 5,
+				5, 4, 7,
+				// left
+				4, 0, 3,
+				3, 7, 4,
+				// bottom
+				4, 5, 1,
+				1, 0, 4,
+				// top
+				3, 2, 6,
+				6, 7, 3
 			};
 			//buffers for positions
 			unsigned int buffers;
@@ -152,28 +185,6 @@ namespace SJ_engine {
 		void shader::UseShaderProgram(Cl_window* obj)
 		{
 			glUseProgram(x_Shader_Program);
-			//Projection and View
-			unsigned int view_loc;
-			unsigned int Proj_loc;
-			unsigned int model_loc;
-			glm::vec3 Position = glm::vec3(0.f, 0.f, 0.f);
-			glm::vec3 front = glm::vec3(0.f, 0.f, -1.f);
-			glm::vec3 WorldUp = glm::vec3(0.f, 1.f, 0.f);
-			model = glm::translate(model, glm::vec3(0.f, 0.f, -1.f));
-			model = glm::rotate(model,0.f, glm::vec3(1.f, 0.f, 0.f));
-			model = glm::rotate(model,45.f, glm::vec3(0.f, 1.f, 0.f));
-			model = glm::rotate(model, 0.f, glm::vec3(0.f, 0.f, 1.f));
-			model = glm::scale(model, glm::vec3(1.f, 1.f, 1.f));
-			view = glm::lookAt(Position, Position + front, WorldUp);
-			Projection = glm::perspective(glm::radians(90.f), obj->AspectRatio, 0.1f, 100.f);
-			model_loc = glGetUniformLocation(x_Shader_Program, "u_model");
-			view_loc = glGetUniformLocation(x_Shader_Program, "u_View");
-			Proj_loc = glGetUniformLocation(x_Shader_Program, "u_Projection");
-			glUniformMatrix4fv(Proj_loc, 1, GL_FALSE, glm::value_ptr(Projection));
-			glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
-			glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
-			
-
 		}
 
 		void shader::shaderdestroy()

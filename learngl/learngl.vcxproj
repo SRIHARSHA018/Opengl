@@ -84,11 +84,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="resources\Camera\Camera.h" />
     <ClInclude Include="resources\Shaders\shader.h" />
     <ClInclude Include="src\graphics\Cl_window.h" />
     <ClInclude Include="src\dependencies.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="resources\Camera\Camera.cpp" />
     <ClCompile Include="resources\Shaders\shader.cpp" />
     <ClCompile Include="src\graphics\Cl_window.cpp" />
     <ClCompile Include="src\main.cpp" />

@@ -4,29 +4,56 @@ namespace SJ_engine {
 	void Cl_window::InputKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		Cl_window* win = static_cast<Cl_window*>(glfwGetWindowUserPointer(window));
-		switch (key) {
-		case GLFW_KEY_ESCAPE:
+		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		{
+			std::cout << "ESC::window closed by user" << std::endl;
+			glfwSetWindowShouldClose(window, GL_TRUE);
+		}
+		if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+		{
+			std::cout << "1::intializing vertex interpolation" << std::endl;
+			win->ColorShift = false;
+		}
+		if (key > 0 && key < 1024)
+		{
 			if (action == GLFW_PRESS)
 			{
-				std::cout << "esc pressed" << std::endl;
-				glfwSetWindowShouldClose(window, GL_TRUE);
+				win->keys[key] = true;
 			}
-		break;
-		case GLFW_KEY_W:
+			else if (action == GLFW_RELEASE)
+			{
+				win->keys[key] = false;
+			}
+		}
+	}
+	void Cl_window::Mouse_button_fun(GLFWwindow* window, int button, int action, int mods)
+	{
+		Cl_window* win = static_cast<Cl_window*>(glfwGetWindowUserPointer(window));
 			if (action == GLFW_PRESS)
 			{
-				std::cout << "W pressed" << std::endl;
+				win->mousebuttons[button] = true;				
+			}
+			else if (action == GLFW_RELEASE)
+			{
+				win->mousebuttons[button] = false;
+			}
+	}
+	
+	//cursor position processing
+	void Cl_window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+	{
+		Cl_window* win = static_cast<Cl_window*>(glfwGetWindowUserPointer(window));
+		if (win->MouseFirstMoved)
+		{
+			win->xcursorLast = xpos;
+			win->ycursorLast = ypos;
+			win->MouseFirstMoved = false;
+		}
+		win->xChange = xpos - win->xcursorLast;
+		win->yChange = win->ycursorLast - ypos;
 
-			}
-		break;
-		case GLFW_KEY_1:
-			if (action == GLFW_PRESS)
-			{
-				std::cout << "1 is pressed\n" << "intializing vertex_position color"<<"or inerpolation color" << std::endl;
-				win->ColorShift = false;
-			}
-		break;
-		} 
+		win->xcursorLast = xpos;
+		win->ycursorLast = ypos;
 	}
 	//prototype for window resize when callback
 	void ResizeWindow(GLFWwindow * window,int Width,int Height)
@@ -39,6 +66,15 @@ namespace SJ_engine {
 		x_Win_Width = Width;
 		x_Win_Height = Height;
 		x_Name = Title;
+		AspectRatio = (float)x_Win_Width / (float)x_Win_Height;
+		for (int i = 0; i < 1024; i++)
+		{
+			keys[i] = false;
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			mousebuttons[i] = false;
+		}
 		if (!Init())
 		{
 			glfwTerminate();
@@ -81,9 +117,9 @@ namespace SJ_engine {
 		}
 		//Render settings for openGL 4.6 Culling and blend func
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		//glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		glFrontFace(GL_CW);
+		glFrontFace(GL_CCW);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glPolygonMode(GL_FRONT_FACE, GL_LINE);
@@ -91,6 +127,8 @@ namespace SJ_engine {
 		glfwSetWindowSizeCallback(x_window, ResizeWindow);
 		//callback for input keys
 		glfwSetKeyCallback(x_window, InputKeys);
+		glfwSetMouseButtonCallback(x_window, Mouse_button_fun);
+		glfwSetCursorPosCallback(x_window, cursor_position_callback);
 		return true;
 
 	}

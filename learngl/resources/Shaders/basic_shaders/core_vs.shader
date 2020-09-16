@@ -10,6 +10,6 @@ uniform mat4 u_View;
 
 void main()
 {
-	gl_Position =u_Projection*u_View*u_model*position;
+	gl_Position = u_Projection*u_View*u_model*position;
 	vColor = vec4(clamp(position,0.f,1.f));
 }
