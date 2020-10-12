@@ -1,4 +1,5 @@
 #include "shader.h"
+
 namespace SJ_engine {
 	namespace SJ_shader {
 		shader::shader(Cl_window* obj)
@@ -102,60 +103,6 @@ namespace SJ_engine {
 
 		}
 
-		void shader::GenBindData()
-		{
-			//shading positions and indices
-			float positions[] =
-			{
-				// front
-				-1.0, -1.0,  1.0,
-				 1.0, -1.0,  1.0,
-				 1.0,  1.0,  1.0,
-				-1.0,  1.0,  1.0,
-				// back
-				-1.0, -1.0, -1.0,
-				 1.0, -1.0, -1.0,
-				 1.0,  1.0, -1.0,
-				-1.0,  1.0, -1.0
-			};
-			unsigned int indices[] =
-			{
-				// front
-				0, 1, 2,
-				2, 3, 0,
-				// right
-				1, 5, 6,
-				6, 2, 1,
-				// back
-				7, 6, 5,
-				5, 4, 7,
-				// left
-				4, 0, 3,
-				3, 7, 4,
-				// bottom
-				4, 5, 1,
-				1, 0, 4,
-				// top
-				3, 2, 6,
-				6, 7, 3
-			};
-			//buffers for positions
-			unsigned int buffers;
-			glGenBuffers(1, &buffers);
-			glBindBuffer(GL_ARRAY_BUFFER, buffers);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-			//vertex attributes enble and pointing them
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, 0, 0);
-			//index buffer
-			//it can manage buffer data like Duplicate vertices 
-			unsigned int indexbufferobj;
-			glGenBuffers(1, &indexbufferobj);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufferobj);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-		}
-
-
 		void shader::Color_RotateIt(Cl_window* obj)
 		{
 			x_ColorShiftKey = obj->ColorShift;
@@ -177,7 +124,7 @@ namespace SJ_engine {
 			}
 			else
 			{
-				glUniform1i(locshader, 0);
+				glUniform1i(locshader,0);
 			}
 			glUniform4f(location, r, g, b, a);
 

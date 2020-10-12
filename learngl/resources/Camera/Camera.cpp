@@ -27,7 +27,6 @@ namespace SJ_engine {
 			x_front.y = sin(glm::radians(x_pitch));
 			x_front.z = sin(glm::radians(x_yaw)) * cos(glm::radians(x_pitch));
 			x_front = glm::normalize(x_front);
-
 			x_right = glm::normalize(glm::cross(x_front, x_WorldUp));
 			x_up = glm::normalize(glm::cross(x_right, x_front));
 

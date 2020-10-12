@@ -27,6 +27,15 @@
     <ClInclude Include="resources\Camera\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\textures\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vendor\STB_image\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\Cl_window.cpp">
@@ -41,11 +50,22 @@
     <ClCompile Include="resources\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="resources\textures\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vendor\STB_image\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\Shaders\basic_shaders\core_vs.shader" />
     <None Include="resources\Shaders\basic_shaders\core_fs.shader" />
     <None Include="glfw3.dll" />
     <None Include="glew32.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\textures\checkerboard.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

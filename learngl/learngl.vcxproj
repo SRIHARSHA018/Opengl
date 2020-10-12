@@ -86,12 +86,17 @@
   <ItemGroup>
     <ClInclude Include="resources\Camera\Camera.h" />
     <ClInclude Include="resources\Shaders\shader.h" />
+    <ClInclude Include="resources\textures\texture.h" />
     <ClInclude Include="src\graphics\Cl_window.h" />
     <ClInclude Include="src\dependencies.h" />
+    <ClInclude Include="src\vendor\STB_image\stb_image.h" />
+    <ClInclude Include="src\macros.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="resources\Camera\Camera.cpp" />
     <ClCompile Include="resources\Shaders\shader.cpp" />
+    <ClCompile Include="src\vendor\STB_image\stb_image.cpp" />
+    <ClCompile Include="resources\textures\texture.cpp" />
     <ClCompile Include="src\graphics\Cl_window.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
@@ -100,6 +105,9 @@
     <None Include="glfw3.dll" />
     <None Include="resources\Shaders\basic_shaders\core_fs.shader" />
     <None Include="resources\Shaders\basic_shaders\core_vs.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\textures\checkerboard.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

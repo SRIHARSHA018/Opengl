@@ -1,4 +1,5 @@
 #include"Cl_window.h"
+
 namespace SJ_engine {
 	//input keys processing
 	void Cl_window::InputKeys(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -67,11 +68,11 @@ namespace SJ_engine {
 		x_Win_Height = Height;
 		x_Name = Title;
 		AspectRatio = (float)x_Win_Width / (float)x_Win_Height;
-		for (int i = 0; i < 1024; i++)
+		for(int i=0;i<1024;i++)
 		{
 			keys[i] = false;
 		}
-		for (int i = 0; i < 3; i++)
+		for(int i=0;i<3;i++)
 		{
 			mousebuttons[i] = false;
 		}

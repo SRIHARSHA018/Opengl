@@ -39,7 +39,7 @@ namespace SJ_engine {
 			{
 				return glm::lookAt(x_position, x_position + x_front, x_WorldUp);
 			}
-			glm::mat4 Cal_projectionMatrix(float aspect) { return glm::perspective(glm::radians(45.f),aspect,0.1f,100.f); }
+			glm::mat4 Cal_projectionMatrix(float aspect) { return glm::perspective(glm::radians(55.f),aspect,0.1f,100.f); }
 			void update();
 		};
 

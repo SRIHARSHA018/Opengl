@@ -1,2 +1,2 @@
-# SJ_engine
-Graphics API for game development
+#SJ_engnie
+It is the template for creating the OpenGl game

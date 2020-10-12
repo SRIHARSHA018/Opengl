@@ -1,5 +1,5 @@
 #pragma once
-#include"src/dependencies.h"
+#include<src/dependencies.h>
 //global variables
 //CLASS for a Window
 namespace SJ_engine {
