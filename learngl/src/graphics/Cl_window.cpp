@@ -10,11 +10,6 @@ namespace SJ_engine {
 			std::cout << "ESC::window closed by user" << std::endl;
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-		if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-		{
-			std::cout << "1::intializing vertex interpolation" << std::endl;
-			win->ColorShift = false;
-		}
 		if (key > 0 && key < 1024)
 		{
 			if (action == GLFW_PRESS)
@@ -152,6 +147,5 @@ namespace SJ_engine {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
-
 
 }

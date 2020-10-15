@@ -18,22 +18,19 @@
     <ClInclude Include="src\graphics\Cl_window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dependencies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resources\Shaders\shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resources\Camera\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resources\textures\texture.h">
+    <ClInclude Include="src\Camera\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vendor\STB_image\stb_image.h">
+    <ClInclude Include="src\Shaders\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\textures\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\vendor\STB_image\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,27 +41,30 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="resources\Shaders\shader.cpp">
+    <ClCompile Include="src\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="resources\Camera\Camera.cpp">
+    <ClCompile Include="src\Shaders\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="resources\textures\texture.cpp">
+    <ClCompile Include="src\textures\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vendor\STB_image\stb_image.cpp">
+    <ClCompile Include="resources\vendor\STB_image\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\Shaders\basic_shaders\core_vs.shader" />
-    <None Include="resources\Shaders\basic_shaders\core_fs.shader" />
     <None Include="glfw3.dll" />
     <None Include="glew32.dll" />
+    <None Include="resources\basic_shaders\core_fs.shader" />
+    <None Include="resources\basic_shaders\core_vs.shader" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\textures\checkerboard.jpg">
+    <Image Include="src\textures\checkerboard.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\textures\me.jpeg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

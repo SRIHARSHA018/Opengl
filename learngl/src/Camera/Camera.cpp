@@ -1,11 +1,18 @@
 #include "Camera.h"
-
 namespace SJ_engine {
 	namespace SJ_camera {
+		void Camera::reset_position()
+		{
+			x_front = glm::vec3(0.f, 0.f, -1.f);
+			x_position = x_initialPos;
+			x_yaw = 0.f;
+			x_pitch = 0.f;
+		}
 		void Camera::Nav(Cl_window* obj,SJ_shader::shader* shaderObj)
 		{
-			glUniformMatrix4fv(shaderObj->getviewmatrix_loc(),1,GL_FALSE,glm::value_ptr(Cal_ViewMatrix()));
-			glUniformMatrix4fv(shaderObj->getProjectionmatrix_loc(),1,0,glm::value_ptr(Cal_projectionMatrix(obj->AspectRatio)));
+
+			shaderObj->SetUniformMatrix4f("u_View", 1,Cal_ViewMatrix());
+			shaderObj->SetUniformMatrix4f("u_Projection", 1,Cal_projectionMatrix(obj->AspectRatio));
 
 		}
 		Camera::Camera(glm::vec3 intialPos, float movespeed, float turnspeed, float yaw, float pitch)
@@ -20,6 +27,7 @@ namespace SJ_engine {
 			x_turnspeed = turnspeed;
 			update();
 
+
 		}
 		void Camera::update()
 		{
@@ -33,6 +41,7 @@ namespace SJ_engine {
 		}
 		Camera::~Camera()
 		{
+
 		}
 
 		void Camera::keycontrol(Cl_window* obj,SJ_shader::shader* shaderObj)
@@ -82,5 +91,22 @@ namespace SJ_engine {
 			Nav(obj,shaderObj);
 		}
 
+		float Camera::get_deltaTime()
+		{
+			float now = (float)glfwGetTime();
+			x_DeltaTime = now - x_lastTime;
+			x_lastTime = now;
+			return x_DeltaTime;
+		}
+
+		glm::mat4 Camera::Cal_ViewMatrix()
+		{
+			return glm::lookAt(x_position, x_position + x_front, x_WorldUp);
+		}
+
+		glm::mat4 Camera::Cal_projectionMatrix(float aspect)
+		{
+			return glm::perspective(glm::radians(55.f), aspect, 0.1f, 100.f);
+		}
 	}
 }

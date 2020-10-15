@@ -1,5 +1,7 @@
 #pragma once
-#include<src/dependencies.h>
+#include<GL/glew.h>
+#include<GLFW/glfw3.h>
+#include<iostream>
 //global variables
 //CLASS for a Window
 namespace SJ_engine {

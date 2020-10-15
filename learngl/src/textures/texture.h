@@ -1,5 +1,7 @@
 #pragma once
-#include"src/dependencies.h"
+#include<string>
+#include<GL/glew.h>
+
 class Texture
 {
 private:
@@ -14,5 +16,4 @@ public:
 	void UnBind() const;
 	int GetWidth() { return x_Width; }
 	int GetHeigth() { return x_Height; }
-
 };
