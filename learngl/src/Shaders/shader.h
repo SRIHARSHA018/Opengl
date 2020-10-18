@@ -20,17 +20,18 @@ namespace SJ_engine {
 			std::unordered_map<std::string, int> uniformlistCache;
 		public:
 			shader();
+			~shader();
 			glm::mat4 model = glm::mat4(1.f);
 			unsigned int Get_shader_program(){	return x_Shader_Program_ID; }
 			void GenBindData();
 			void shaderdestroy();
 			void UseShaderProgram();
 		public:
-			void modelmatrix();
-			void SetUniformMatrix4f(const std::string &uniformname, int size, const glm::mat4 &matrix);
+			void SetUniform3fv(const std::string& uniformname, const glm::vec3& vector3);
 			void SetUniform1i(const std::string& uniformname, int value);
+			void SetUniform1f(const std::string& uniformname, float value);
+			void SetUniformMatrix4f(const std::string &uniformname, int size, const glm::mat4 &matrix);
 			unsigned int GetUniformLocation(const std::string &uniformname);
-
 		};
 	}
 }

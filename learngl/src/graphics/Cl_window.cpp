@@ -34,6 +34,12 @@ namespace SJ_engine {
 				win->mousebuttons[button] = false;
 			}
 	}
+
+	float Cl_window::GetAspectRatio()
+	{
+		glfwGetFramebufferSize(x_window, &ScreenWidth, &ScreenHeight);
+		return (float)(ScreenWidth)/(float)(ScreenHeight) ;
+	}
 	
 	//cursor position processing
 	void Cl_window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -100,10 +106,9 @@ namespace SJ_engine {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 6);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,GL_TRUE);
 		glfwMakeContextCurrent(x_window);
 		glfwSetWindowUserPointer(x_window, this);
-		glfwGetFramebufferSize(x_window, &ScreenWidth, &ScreenHeight);
-		AspectRatio = (float)ScreenWidth / (float)ScreenHeight;
 		//swap interval for swap buffers period in order to vsync 
 		glfwSwapInterval(1);
 		//GLEW intialization
@@ -118,7 +123,6 @@ namespace SJ_engine {
 		glFrontFace(GL_CCW);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glPolygonMode(GL_FRONT_FACE, GL_LINE);
 		//Resize callback
 		glfwSetWindowSizeCallback(x_window, ResizeWindow);
 		//callback for input keys
@@ -136,16 +140,16 @@ namespace SJ_engine {
 	//window poll events
 	void Cl_window::Update()
 	{
+
 		glfwSwapBuffers(x_window);
 		glfwPollEvents();
-
 	}
 	//window clear events
 	void Cl_window::clear()
 	{
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.f);
 	}
 
 }

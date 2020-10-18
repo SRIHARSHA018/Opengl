@@ -1,8 +1,10 @@
 #pragma once
-#include<GL/glew.h>
+#include"GL/glew.h"
 #include<GLM/glm.hpp>
 #include<GLM/gtc/type_ptr.hpp>
 #include<GLM/matrix.hpp>
+#include<GLM/mat4x4.hpp>
+#include<GLM/gtc/matrix_transform.hpp>
 #include"src/graphics/Cl_window.h"
 #include"src/Shaders/shader.h"
 namespace SJ_engine {
@@ -10,29 +12,33 @@ namespace SJ_engine {
 		class Camera 
 		{
 		private:
-			glm::vec3 x_position;
+			glm::mat4 x_ModelMatrix=glm::mat4(1.0f);
+			glm::mat4 x_ViewMatrix= glm::mat4(1.0f);
+			glm::vec3 x_camposition;
 			glm::vec3 x_up;
 			glm::vec3 x_front;
 			glm::vec3 x_WorldUp;
 			glm::vec3 x_right;
 			glm::vec3 x_initialPos;
-			float x_yaw;
+			float x_yaw=-90.f;
 			float x_pitch;
 			float x_movementspeed;
 			float x_turnspeed;
-			float x_DeltaTime=0;
-			float x_lastTime=0;
+			float x_DeltaTime=0.f;
+			float x_lastTime=0.f;
 
 		public:
 			void reset_position();
-			void Nav(Cl_window* obj,SJ_shader::shader* shaderObj);
 			Camera(glm::vec3 intialPos,float movespeed,float turnspeed,float yaw,float pitch);
 			~Camera();
 			void keycontrol(Cl_window* obj, SJ_shader::shader* shaderObj);
 			float get_deltaTime();
-			glm::mat4 Cal_ViewMatrix();
-			glm::mat4 Cal_projectionMatrix(float aspect);
 			void update();
+			glm::mat4 getViewMatrix() { return x_ViewMatrix; }
+			glm::mat4 getModelMatrix() { return x_ModelMatrix; }
+			glm::vec3 getCamPosition() { return x_camposition; }
+			glm::vec3 getcamPos() { return x_camposition; }
+			
 		};
 
 	}

@@ -19,7 +19,6 @@ Texture::Texture(const std::string& path)
 	{
 		stbi_image_free(x_Local_Buffers);
 	}
-
 }
 
 Texture::~Texture()

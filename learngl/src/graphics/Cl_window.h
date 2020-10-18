@@ -33,5 +33,6 @@ namespace SJ_engine {
 		double xcursorLast=0;
 		bool MouseFirstMoved = true;
 		double ycursorLast=0;
+		float GetAspectRatio();
 	};
 }

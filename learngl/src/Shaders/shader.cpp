@@ -65,7 +65,11 @@ namespace SJ_engine {
 			}
 			x_Shader_Program_ID = createprogram(VertexShader, FragmentShader);
 			UseShaderProgram();
-			modelmatrix();
+		}
+
+		shader::~shader()
+		{
+			glDeleteShader(x_Shader_Program_ID);
 		}
 
 		unsigned int shader::createprogram(unsigned int Vshader, unsigned int Fshader)
@@ -104,40 +108,50 @@ namespace SJ_engine {
 			//shading positions and indices
 			float positions[] =
 			{
-				// front            //texture coordinates
-				-1.0, -1.0,  1.0,   0.f,0.f,
-				 1.0, -1.0,  1.0,   1.f,0.f,
-				 1.0,  1.0,  1.0,   1.f,1.f,
-				-1.0,  1.0,  1.0,   0.f,1.f,
+				////plane
+				////positions       //texture coords    //normals
+				//-1.f,-1.f,0.f,     0.f,0.f,           0.f,0.f,-1.f,
+				// 1.f,-1.f,0.f,     1.f,0.f,           0.f,0.f,-1.f,
+				// 1.f,1.f,0.f,      1.f,1.f,           0.f,0.f,-1.f,
+				// -1.f,1.f,0.f,     0.f,1.f,           0.f,0.f,-1.f
+				/*cube*/
+				// front        //texture coordinates  //normals
+				 1.0, -1.0,  1.0,   1.f,0.f,           0.f,0.f,1.f,
+				 1.0,  1.0,  1.0,   1.f,1.f,           0.f,0.f,1.f,
+				-1.0,  1.0,  1.0,   0.f,1.f,           0.f,0.f,1.f,
+				-1.0, -1.0,  1.0,   0.f,0.f,           0.f,0.f,1.f,    
 				// top
-				-1.0,  1.0,  1.0,   0.f,0.f,
-				 1.0,  1.0,  1.0,	1.f,0.f,
-				 1.0,  1.0, -1.0,	1.f,1.f,
-				-1.0,  1.0, -1.0,	0.f,1.f,
+				-1.0,  1.0,  1.0,   0.f,0.f,           0.f,1.f,0.f,
+				 1.0,  1.0,  1.0,	1.f,0.f,		   0.f,1.f,0.f,
+				 1.0,  1.0, -1.0,	1.f,1.f,		   0.f,1.f,0.f,
+				-1.0,  1.0, -1.0,	0.f,1.f,		   0.f,1.f,0.f,
 				// back
-				 1.0, -1.0, -1.0,   0.f,0.f,
-				-1.0, -1.0, -1.0,	1.f,0.f,
-				-1.0,  1.0, -1.0,	1.f,1.f,
-				 1.0,  1.0, -1.0,	0.f,1.f,
+				 1.0, -1.0, -1.0,   0.f,0.f,           0.f,0.f,-1.f,
+				-1.0, -1.0, -1.0,	1.f,0.f,		   0.f,0.f,-1.f,
+				-1.0,  1.0, -1.0,	1.f,1.f,		   0.f,0.f,-1.f,
+				 1.0,  1.0, -1.0,	0.f,1.f,		   0.f,0.f,-1.f,
 				 // bottom
-				 -1.0, -1.0, -1.0,  0.f,0.f,
-				  1.0, -1.0, -1.0,	1.f,0.f,
-				  1.0, -1.0,  1.0,	1.f,1.f,
-				 -1.0, -1.0,  1.0,	0.f,1.f,
-				 // left
-				 -1.0, -1.0, -1.0,  0.f,0.f,
-				 -1.0, -1.0,  1.0,	1.f,0.f,
-				 -1.0,  1.0,  1.0,	1.f,1.f,
-				 -1.0,  1.0, -1.0,	0.f,1.f,
-				 // right
-				  1.0, -1.0,  1.0,  0.f,0.f,
-				  1.0, -1.0, -1.0,	1.f,0.f,
-				  1.0,  1.0, -1.0,	1.f,1.f,
-				  1.0,  1.0,  1.0,	0.f,1.f,
-
+				 -1.0, -1.0, -1.0,  0.f,0.f,           0.f,-1.f,0.f,
+				  1.0, -1.0, -1.0,	1.f,0.f,		   0.f,-1.f,0.f,
+				  1.0, -1.0,  1.0,	1.f,1.f,		   0.f,-1.f,0.f,
+				 -1.0, -1.0,  1.0,	0.f,1.f,		   0.f,-1.f,0.f,
+				 // left									   
+				 -1.0, -1.0, -1.0,  0.f,0.f,           -1.f,0.f,0.f,
+				 -1.0, -1.0,  1.0,	1.f,0.f,		   -1.f,0.f,0.f,
+				 -1.0,  1.0,  1.0,	1.f,1.f,		   -1.f,0.f,0.f,
+				 -1.0,  1.0, -1.0,	0.f,1.f,		   -1.f,0.f,0.f,
+				 // right									   
+				  1.0, -1.0,  1.0,  0.f,0.f,           1.f,0.f,0.f,
+				  1.0, -1.0, -1.0,	1.f,0.f,		   1.f,0.f,0.f,
+				  1.0,  1.0, -1.0,	1.f,1.f,		   1.f,0.f,0.f,
+				  1.0,  1.0,  1.0,	0.f,1.f,		   1.f,0.f,0.f,
 			};
 			unsigned int indices[] =
 			{
+				////plane
+				//0,1,2,
+				//0,2,3
+				//cube
 				// front
 				0,  1,  2,
 				2,  3,  0,
@@ -156,6 +170,7 @@ namespace SJ_engine {
 				// right
 				20, 21, 22,
 				22, 23, 20,
+				
 			};
 			//buffers for positions
 			unsigned int buffers;
@@ -164,7 +179,7 @@ namespace SJ_engine {
 			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 			//vertex attributes enble and pointing them
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),(void*) 0);
 			//index buffer
 			//it can manage buffer data like Duplicate vertices 
 			unsigned int indexbufferobj;
@@ -173,9 +188,10 @@ namespace SJ_engine {
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 			//texturebind
 			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-			SetUniform1i("u_Texture", 0);
-
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+			//normals
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		}
 
 		void shader::shaderdestroy()
@@ -184,24 +200,21 @@ namespace SJ_engine {
 			glDeleteProgram(x_Shader_Program_ID);
 		}
 
-		void shader::modelmatrix()
-		{
-			//model matrix
-			model = glm::translate(model, glm::vec3(0.f, 0.f, -1.f));
-			model = glm::rotate(model, 45.f, glm::vec3(1.f, 0.f, 0.f));
-			model = glm::rotate(model, 45.f, glm::vec3(0.f, 1.f, 0.f));
-			model = glm::rotate(model, 45.f, glm::vec3(0.f, 0.f, 1.f));
-			model = glm::scale(model, glm::vec3(1.f, 1.f, 1.f));
-			SetUniformMatrix4f("u_model", 1, model);
-		}
-
 		void shader::SetUniformMatrix4f(const std::string &uniformname, int size, const glm::mat4 &matrix)
 		{
 			glUniformMatrix4fv(GetUniformLocation(uniformname), size, GL_FALSE, glm::value_ptr(matrix));
 		}
 		void shader::SetUniform1i(const std::string& uniformname, int value)
 		{
-			glUniform1i(GetUniformLocation(uniformname), 0);
+			glUniform1i(GetUniformLocation(uniformname), value);
+		}
+		void shader::SetUniform1f(const std::string& uniformname, float value)
+		{
+			glUniform1f(GetUniformLocation(uniformname), value);
+		}
+		void shader::SetUniform3fv(const std::string& uniformname, const glm::vec3& vector3)
+		{
+			glUniform3fv(GetUniformLocation(uniformname),1, glm::value_ptr(vector3));
 		}
 		unsigned int  shader::GetUniformLocation(const std::string& uniformname)
 		{

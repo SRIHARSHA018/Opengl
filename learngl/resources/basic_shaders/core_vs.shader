@@ -1,17 +1,28 @@
 #version 460 core
 
-out vec4 vColor;
+//layouts
+layout(location = 0) in vec3 vertex_position;
+layout(location = 1) in vec2 vertex_texcoord;
+layout(location = 2) in vec3 vertex_normal;
 
-layout(location = 0) in vec4 position;
-layout(location = 1) in vec2 texcoord;
-out vec2 v_texcoord;
+//uniforms
 uniform mat4 u_model;
 uniform mat4 u_Projection;
 uniform mat4 u_View;
 
+//outs
+out vec3 v_normal;
+out vec2 v_texcoord;
+out vec3 frag_pos;
+ 
+//main
 void main()
 {
-	gl_Position = u_Projection*u_View*u_model*position;
-	vColor = vec4(clamp(position,0.f,1.f));
-	v_texcoord = texcoord;
+	//camera pos
+	frag_pos = vec4(u_model *vec4(vertex_position,1.f)).xyz;
+	gl_Position = u_Projection*	u_View*u_model*vec4(vertex_position,1.f);
+	//texture coords
+	v_texcoord = vertex_texcoord;
+	//normals
+	v_normal = mat3(transpose(inverse(u_model)))*vertex_normal;
 }
