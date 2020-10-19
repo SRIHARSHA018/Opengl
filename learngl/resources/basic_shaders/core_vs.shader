@@ -24,5 +24,5 @@ void main()
 	//texture coords
 	v_texcoord = vertex_texcoord;
 	//normals
-	v_normal = mat3(transpose(inverse(u_model)))*vertex_normal;
+	v_normal = (transpose(inverse(u_model)) * vec4(vertex_normal, 0.f)).xyz;
 }

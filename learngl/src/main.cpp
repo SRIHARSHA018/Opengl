@@ -11,43 +11,52 @@ int main()
 
 	SJ_engine::Cl_window Cl_window(1080,1080,"SJ_engine");
 	SJ_engine::SJ_camera::Camera camera(glm::vec3(0.f, 0.f, 5.f), 2.f, 0.2f, -90.f, 0.f);
-	SJ_engine::SJ_shader::shader shader;
-	Light light(0.2f, 1.f, 1.f, 1.0f);
+	SJ_engine::SJ_shader::shader cube("resources/basic_shaders/core_vs.shader", "resources/basic_shaders/core_fs.shader");
+	Light light(0.1f, 1.f, 1.f, 1.0f,
+		1.f,glm::vec3(1.f,1.f,1.f),1.0f,250.f);
 	Texture texture("src/textures/checkerboard.jpg");
 	//opengl info
 	std::cout << glGetString(GL_VERSION) << "\n";
 	//buffer gen and binding
-	shader.GenBindData();
+	cube.GenBindData();
 	texture.Bind();
 	//perspective
 	glm::mat4 proj = glm::perspective(glm::radians(45.f),Cl_window.GetAspectRatio(), 0.1f, 100.f);
 	//shader uniform binds
-	shader.SetUniform1f("u_Texture", 0);
-	shader.SetUniformMatrix4f("u_Projection", 1, proj);
-	shader.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
-	shader.SetUniformMatrix4f("u_model", 1,camera.getModelMatrix());
-	shader.SetUniform3fv("u_cameraPos", camera.getcamPos());
-	shader.SetUniform3fv("u_directional_light.Lightcolor", light.GetLightColor());
-	shader.SetUniform1f("u_directional_light.a_intensity", light.GetAmbientIntensity());
-	
+	cube.SetUniform1f("u_Texture", 0);
+	cube.SetUniformMatrix4f("u_Projection", 1, proj);
+	cube.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
+	cube.SetUniformMatrix4f("u_model", 1,camera.getModelMatrix());
+	cube.SetUniform3fv("u_cameraPos", camera.getcamPos());
+	cube.SetUniform3fv("u_directional_light.LightColor", light.GetLightColor());
+	cube.SetUniform1f("u_directional_light.a_intensity", light.GetAmbientIntensity());
+	cube.SetUniform3fv("u_directional_light.DiffuseDirection", light.GetDiffuseDirection());
+	cube.SetUniform1f("u_directional_light.DiffuseIntensity", light.GetDiffuseIntensity());
+	cube.SetUniform1f("u_directional_light.SpecularIntensity", light.GetSpecularIntensity());
+	cube.SetUniform1f("u_directional_light.SpecularIntensity", light.GetSpecularIntensity());
+
 	//loop to progress
 	while (!Cl_window.closed())
 	{
 		Cl_window.clear();
-		shader.UseShaderProgram();
+		cube.UseShaderProgram();
 		camera.update();
-		camera.keycontrol(&Cl_window, &shader);
+		camera.keycontrol(&Cl_window, &cube);
 		texture.Bind();
 
 		glm::mat4 proj = glm::perspective(glm::radians(45.f),Cl_window.GetAspectRatio(), 0.1f, 100.f);
 
-		shader.SetUniform1f("u_Texture", 0);
-		shader.SetUniformMatrix4f("u_Projection", 1, proj);
-		shader.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
-		shader.SetUniformMatrix4f("u_model", 1,camera.getModelMatrix());		
-		shader.SetUniform3fv("u_cameraPos", camera.getcamPos());
-		shader.SetUniform3fv("u_directional_light.Lightcolor", light.GetLightColor());
-		shader.SetUniform1f("u_directional_light.a_intensity", light.GetAmbientIntensity());
+		cube.SetUniform1f("u_Texture", 0);
+		cube.SetUniformMatrix4f("u_Projection", 1, proj);
+		cube.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
+		cube.SetUniformMatrix4f("u_model", 1,camera.getModelMatrix());		
+		cube.SetUniform3fv("u_cameraPos", camera.getcamPos());
+		cube.SetUniform3fv("u_directional_light.LightColor", light.GetLightColor());
+		cube.SetUniform1f("u_directional_light.a_intensity", light.GetAmbientIntensity());
+		cube.SetUniform3fv("u_directional_light.DiffuseDirection", light.GetDiffuseDirection());
+		cube.SetUniform1f("u_directional_light.DiffuseIntensity", light.GetDiffuseIntensity());
+		cube.SetUniform1f("u_directional_light.SpecularPower", light.GetSpecularPower());
+		cube.SetUniform1f("u_directional_light.SpecularPower", light.GetSpecularPower());
 
 		//coordinate lines
 		glBegin(GL_LINES);
@@ -61,11 +70,11 @@ int main()
 		glEnd();
 
 		//navigation and control
-		glDrawElements(GL_TRIANGLES,6*12,GL_UNSIGNED_INT,nullptr);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		Cl_window.Update();
 	}
 	//destroy the shader program
-	shader.shaderdestroy();
+	cube.shaderdestroy();
 	//exits application
 	return 0;
 }

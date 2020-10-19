@@ -2,14 +2,14 @@
 
 namespace SJ_engine {
 	namespace SJ_shader {
-		shader::shader()
+		shader::shader(const char* vertexshader, const char* fragmentshader)
 		{
 			char InfoLog[1024];
 			std::ifstream file;
 			std::string temp = "";
 			std::string srcstr = "";
 			//vertex shader
-			file.open("resources/basic_shaders/core_vs.shader");
+			file.open(vertexshader);
 			if (file.is_open())
 			{
 				while (std::getline(file, temp))
@@ -37,7 +37,7 @@ namespace SJ_engine {
 			//Fragment shader
 			temp = "";
 			srcstr = "";
-			file.open("resources/basic_shaders/core_fs.shader");
+			file.open(fragmentshader);
 			if (file.is_open())
 			{
 				while (std::getline(file, temp))
@@ -114,37 +114,81 @@ namespace SJ_engine {
 				// 1.f,-1.f,0.f,     1.f,0.f,           0.f,0.f,-1.f,
 				// 1.f,1.f,0.f,      1.f,1.f,           0.f,0.f,-1.f,
 				// -1.f,1.f,0.f,     0.f,1.f,           0.f,0.f,-1.f
-				/*cube*/
-				// front        //texture coordinates  //normals
-				 1.0, -1.0,  1.0,   1.f,0.f,           0.f,0.f,1.f,
-				 1.0,  1.0,  1.0,   1.f,1.f,           0.f,0.f,1.f,
-				-1.0,  1.0,  1.0,   0.f,1.f,           0.f,0.f,1.f,
-				-1.0, -1.0,  1.0,   0.f,0.f,           0.f,0.f,1.f,    
-				// top
-				-1.0,  1.0,  1.0,   0.f,0.f,           0.f,1.f,0.f,
-				 1.0,  1.0,  1.0,	1.f,0.f,		   0.f,1.f,0.f,
-				 1.0,  1.0, -1.0,	1.f,1.f,		   0.f,1.f,0.f,
-				-1.0,  1.0, -1.0,	0.f,1.f,		   0.f,1.f,0.f,
-				// back
-				 1.0, -1.0, -1.0,   0.f,0.f,           0.f,0.f,-1.f,
-				-1.0, -1.0, -1.0,	1.f,0.f,		   0.f,0.f,-1.f,
-				-1.0,  1.0, -1.0,	1.f,1.f,		   0.f,0.f,-1.f,
-				 1.0,  1.0, -1.0,	0.f,1.f,		   0.f,0.f,-1.f,
-				 // bottom
-				 -1.0, -1.0, -1.0,  0.f,0.f,           0.f,-1.f,0.f,
-				  1.0, -1.0, -1.0,	1.f,0.f,		   0.f,-1.f,0.f,
-				  1.0, -1.0,  1.0,	1.f,1.f,		   0.f,-1.f,0.f,
-				 -1.0, -1.0,  1.0,	0.f,1.f,		   0.f,-1.f,0.f,
-				 // left									   
-				 -1.0, -1.0, -1.0,  0.f,0.f,           -1.f,0.f,0.f,
-				 -1.0, -1.0,  1.0,	1.f,0.f,		   -1.f,0.f,0.f,
-				 -1.0,  1.0,  1.0,	1.f,1.f,		   -1.f,0.f,0.f,
-				 -1.0,  1.0, -1.0,	0.f,1.f,		   -1.f,0.f,0.f,
-				 // right									   
-				  1.0, -1.0,  1.0,  0.f,0.f,           1.f,0.f,0.f,
-				  1.0, -1.0, -1.0,	1.f,0.f,		   1.f,0.f,0.f,
-				  1.0,  1.0, -1.0,	1.f,1.f,		   1.f,0.f,0.f,
-				  1.0,  1.0,  1.0,	0.f,1.f,		   1.f,0.f,0.f,
+				///*cube*/
+				//// front        //texture coordinates  //normals
+				// 1.0, -1.0,  1.0,   1.f,0.f,           0.f,0.f,1.f,
+				// 1.0,  1.0,  1.0,   1.f,1.f,           0.f,0.f,1.f,
+				//-1.0,  1.0,  1.0,   0.f,1.f,           0.f,0.f,1.f,
+				//-1.0, -1.0,  1.0,   0.f,0.f,           0.f,0.f,1.f,    
+				//// top
+				//-1.0,  1.0,  1.0,   0.f,0.f,           0.f,1.f,0.f,
+				// 1.0,  1.0,  1.0,	1.f,0.f,		   0.f,1.f,0.f,
+				// 1.0,  1.0, -1.0,	1.f,1.f,		   0.f,1.f,0.f,
+				//-1.0,  1.0, -1.0,	0.f,1.f,		   0.f,1.f,0.f,
+				//// back
+				// 1.0, -1.0, -1.0,   0.f,0.f,           0.f,0.f,-1.f,
+				//-1.0, -1.0, -1.0,	1.f,0.f,		   0.f,0.f,-1.f,
+				//-1.0,  1.0, -1.0,	1.f,1.f,		   0.f,0.f,-1.f,
+				// 1.0,  1.0, -1.0,	0.f,1.f,		   0.f,0.f,-1.f,
+				// // bottom
+				// -1.0, -1.0, -1.0,  0.f,0.f,           0.f,-1.f,0.f,
+				//  1.0, -1.0, -1.0,	1.f,0.f,		   0.f,-1.f,0.f,
+				//  1.0, -1.0,  1.0,	1.f,1.f,		   0.f,-1.f,0.f,
+				// -1.0, -1.0,  1.0,	0.f,1.f,		   0.f,-1.f,0.f,
+				// // left									   
+				// -1.0, -1.0, -1.0,  0.f,0.f,           -1.f,0.f,0.f,
+				// -1.0, -1.0,  1.0,	1.f,0.f,		   -1.f,0.f,0.f,
+				// -1.0,  1.0,  1.0,	1.f,1.f,		   -1.f,0.f,0.f,
+				// -1.0,  1.0, -1.0,	0.f,1.f,		   -1.f,0.f,0.f,
+				// // right									   
+				//  1.0, -1.0,  1.0,  0.f,0.f,           1.f,0.f,0.f,
+				//  1.0, -1.0, -1.0,	1.f,0.f,		   1.f,0.f,0.f,
+				//  1.0,  1.0, -1.0,	1.f,1.f,		   1.f,0.f,0.f,
+				//  1.0,  1.0,  1.0,	0.f,1.f,		   1.f,0.f,0.f,
+
+				//cube2
+				 //back face
+        		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
+				 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f,  0.0f, -1.0f,
+				 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
+				 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
+				-0.5f,  0.5f, -0.5f,	0.f,1.0f,    0.0f,  0.0f, -1.0f,
+				-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
+				 //front face
+				-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
+				 0.5f, -0.5f, 0.5f,		1.0f,0.f,	 0.0f,  0.0f, 1.0f,
+				 0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
+				 0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
+				-0.5f,  0.5f, 0.5f,		0.f,1.f,	 0.0f,  0.0f, 1.0f,
+				-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
+				 //left face									 
+				-0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
+				-0.5f,  0.5f, -0.5f,	1.0f,0.f,	 -1.0f,  0.0f,  0.0f,
+				-0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
+				-0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
+				-0.5f, -0.5f,  0.5f,	0.f,1.f,	 -1.0f,  0.0f,  0.0f,
+				-0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
+				 //RIGHT FACE									 
+				 0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
+				 0.5f,  0.5f, -0.5f,	1.0f,0.f,    1.0f,  0.0f,  0.0f,
+				 0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
+				 0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
+				 0.5f, -0.5f,  0.5f,	0.f,1.f,     1.0f,  0.0f,  0.0f,
+				 0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
+				 //bottom face								 
+				-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
+				 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f, -1.0f,  0.0f,
+				 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
+				 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
+				-0.5f, -0.5f,  0.5f,	0.f,1.f,	 0.0f, -1.0f,  0.0f,
+				-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
+				 //top face
+				-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f,
+				 0.5f,  0.5f, -0.5f,	1.0f,0.f,	 0.0f,  1.0f,  0.0f,
+				 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
+				 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
+				-0.5f,  0.5f,  0.5f,	0.f,1.f,	 0.0f,  1.0f,  0.0f,
+				-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f
 			};
 			unsigned int indices[] =
 			{
@@ -172,24 +216,29 @@ namespace SJ_engine {
 				22, 23, 20,
 				
 			};
+
 			//buffers for positions
 			unsigned int buffers;
 			glGenBuffers(1, &buffers);
 			glBindBuffer(GL_ARRAY_BUFFER, buffers);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-			//vertex attributes enble and pointing them
+			
+			//VERTEX ATTRIBUTE POSITIONS
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),(void*) 0);
+			
 			//index buffer
 			//it can manage buffer data like Duplicate vertices 
-			unsigned int indexbufferobj;
+			/*unsigned int indexbufferobj;
 			glGenBuffers(1, &indexbufferobj);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufferobj);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-			//texturebind
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);*/
+
+			//VERTEX ATTRIBUTE TEXTURE COORDINATES
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-			//normals
+
+			//VERTEX ATTRIBUTE NORMALS
 			glEnableVertexAttribArray(2);
 			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		}

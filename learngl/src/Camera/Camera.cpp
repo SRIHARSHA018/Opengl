@@ -5,7 +5,7 @@ namespace SJ_engine {
 		{
 			x_front = glm::vec3(0.f, 0.f, -1.f);
 			x_camposition = x_initialPos;
-			x_yaw = 0.f;
+			x_yaw = -90.f;
 			x_pitch = 0.f;
 		}
 

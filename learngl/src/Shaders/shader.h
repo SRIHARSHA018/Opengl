@@ -19,7 +19,7 @@ namespace SJ_engine {
 			//cache list of uniforms
 			std::unordered_map<std::string, int> uniformlistCache;
 		public:
-			shader();
+			shader(const char* vertexshader,const char* fragmentshader);
 			~shader();
 			glm::mat4 model = glm::mat4(1.f);
 			unsigned int Get_shader_program(){	return x_Shader_Program_ID; }
