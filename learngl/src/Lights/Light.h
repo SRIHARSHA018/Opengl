@@ -14,7 +14,7 @@ public:
 	float GetDiffuseIntensity() { return x_DiffuseIntensity; }
 	glm::vec3 GetLightColor() { return x_Color; }
 	glm::vec3 GetDiffuseDirection() { return x_DiffuseDirection; }
-
+	void SetLightPos(float x, float y,float z);
 private:
 	
 	float x_AmbientIntensity;

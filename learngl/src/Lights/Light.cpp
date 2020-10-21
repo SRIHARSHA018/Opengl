@@ -6,7 +6,6 @@ Light::Light()
 	x_DiffuseIntensity = 0.f;
 	x_Color = glm::vec3(1.f);
 	x_DiffuseDirection = glm::vec3(0.f);
-
 }
 
 Light::Light(float ambientintensity,float red,float green,float blue,
@@ -26,4 +25,11 @@ Light::Light(float ambientintensity,float red,float green,float blue,
 Light::~Light()
 {
 
+}
+
+void Light::SetLightPos(float x, float y,float z)
+{
+	x_DiffuseDirection.x = x;
+	x_DiffuseDirection.y = y;
+	x_DiffuseDirection.z = z;
 }

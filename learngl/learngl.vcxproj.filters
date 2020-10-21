@@ -65,6 +65,8 @@
     <None Include="glew32.dll" />
     <None Include="resources\basic_shaders\core_fs.shader" />
     <None Include="resources\basic_shaders\core_vs.shader" />
+    <None Include="resources\basic_shaders\lightsources\v_sourceObject.shader" />
+    <None Include="resources\basic_shaders\lightsources\f_sourceObject.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\checkerboard.jpg">
