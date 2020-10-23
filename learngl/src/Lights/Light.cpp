@@ -5,18 +5,17 @@ Light::Light()
 	x_AmbientIntensity = 1.f;
 	x_DiffuseIntensity = 0.f;
 	x_Color = glm::vec3(1.f);
-	x_DiffuseDirection = glm::vec3(0.f);
+	
 }
 
-Light::Light(float ambientintensity,float red,float green,float blue,
-	float diffintensity, glm::vec3 diffusedirection,float specular_intensity,float specular_pow)
+Light::Light(float ambientintensity, float red, float green, float blue,
+	float diffintensity, float specular_intensity, float specular_pow)
 {
 	//ambient
 	x_AmbientIntensity = ambientintensity;
-	x_Color = glm::vec3(red,green,blue);
+	x_Color = glm::vec3(red, green, blue);
 	//diffuse
 	x_DiffuseIntensity = diffintensity;
-	x_DiffuseDirection = diffusedirection;
 	//specular
 	x_specularpow = specular_pow;
 	x_SpecularIntensity = specular_intensity;
@@ -27,9 +26,4 @@ Light::~Light()
 
 }
 
-void Light::SetLightPos(float x, float y,float z)
-{
-	x_DiffuseDirection.x = x;
-	x_DiffuseDirection.y = y;
-	x_DiffuseDirection.z = z;
-}
+

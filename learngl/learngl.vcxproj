@@ -84,8 +84,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="resources\vendor\ImGui\imconfig.h" />
+    <ClInclude Include="resources\vendor\ImGui\imgui.h" />
+    <ClInclude Include="resources\vendor\ImGui\imgui_impl_glfw.h" />
+    <ClInclude Include="resources\vendor\ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="resources\vendor\ImGui\imgui_internal.h" />
+    <ClInclude Include="resources\vendor\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="resources\vendor\ImGui\imstb_textedit.h" />
+    <ClInclude Include="resources\vendor\ImGui\imstb_truetype.h" />
+    <ClInclude Include="src\Lights\DirectionalLight.h" />
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Lights\Light.h" />
+    <ClInclude Include="src\Lights\PointLight.h" />
     <ClInclude Include="src\Shaders\shader.h" />
     <ClInclude Include="src\textures\texture.h" />
     <ClInclude Include="src\graphics\Cl_window.h" />
@@ -93,8 +103,16 @@
     <ClInclude Include="src\macros.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="resources\vendor\ImGui\imgui.cpp" />
+    <ClCompile Include="resources\vendor\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="resources\vendor\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="resources\vendor\ImGui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="resources\vendor\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="resources\vendor\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Lights\DirectionalLight.cpp" />
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="src\Lights\Light.cpp" />
+    <ClCompile Include="src\Lights\PointLight.cpp" />
     <ClCompile Include="src\Shaders\shader.cpp" />
     <ClCompile Include="resources\vendor\STB_image\stb_image.cpp" />
     <ClCompile Include="src\textures\texture.cpp" />

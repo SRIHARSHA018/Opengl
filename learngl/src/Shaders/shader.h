@@ -8,6 +8,7 @@
 #include<sstream>
 #include<string>
 #include<iostream>
+
 //CLASS for shader
 namespace SJ_engine {
 	namespace SJ_shader {
