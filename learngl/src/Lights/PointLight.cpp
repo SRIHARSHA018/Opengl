@@ -1,18 +1,25 @@
 #include "PointLight.h"
 
 PointLight::PointLight()
+	:Light()
 {
+	x_Position = glm::vec3(0.f, 0.f, 0.f);
 }
 
-PointLight::PointLight(float ambientintensity, float red, float green, float blue,
-	float diffintensity, glm::vec3 position, float specular_intensity, float specular_pow)
+PointLight::PointLight(float ambientintensity,
+	float red, float green, float blue,
+	float diffintensity)
+	:Light(ambientintensity,red,green,blue,diffintensity)
 {
-	x_Position = position;
+
+	x_Position = glm::vec3(0.f, 1.f, 1.f);
+
 }
 
-void PointLight::SetPointLightPos(float x, float y, float z)
+void PointLight::SetAttenuationParameters(float a, float b, float c)
 {
-	x_Position.x = x;
-	x_Position.y = y;
-	x_Position.z = z;
+	this->x_constant = c;
+	this->x_linear = b;
+	this->x_quadratic = a;
 }
+

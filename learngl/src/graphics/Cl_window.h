@@ -1,6 +1,7 @@
 #pragma once
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
+#include<GLM/glm.hpp>
 #include<iostream>
 //global variables
 //CLASS for a Window
@@ -14,7 +15,7 @@ namespace SJ_engine {
 		const bool closed();
 		GLFWwindow* Get_Window() { return x_window; }
 		void Update();
-		void clear();
+		void clear(const glm::vec3 &bg_color);
 		bool ColorShift = true;
 		float AspectRatio;
 		int ScreenWidth, ScreenHeight;

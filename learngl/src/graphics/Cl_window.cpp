@@ -145,11 +145,11 @@ namespace SJ_engine {
 		glfwPollEvents();
 	}
 	//window clear events
-	void Cl_window::clear()
+	void Cl_window::clear(const glm::vec3& bg_color)
 	{
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClearColor(bg_color.x,bg_color.y,bg_color.z,1.f);
 	}
 
 }

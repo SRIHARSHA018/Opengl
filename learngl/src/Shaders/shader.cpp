@@ -275,6 +275,24 @@ namespace SJ_engine {
 			uniformlistCache[uniformname] = loc;
 			return loc;
 		}
+		void shader::SetDirectionalLightUniforms(DirectionalLight* lightObj)
+		{
+			this->SetUniform3fv("u_directional_light.LightColor", lightObj->GetLightColor());
+			this->SetUniform1f("u_directional_light.ambient_intensity", lightObj->GetAmbientIntensity());
+			this->SetUniform3fv("u_directional_light.DiffuseDirection", lightObj->GetLightDirection());
+			this->SetUniform1f("u_directional_light.DiffuseIntensity", lightObj->GetDiffuseIntensity());
+			
+		}
+		void shader::SetPointLightUniforms(PointLight* lightObj)
+		{
+			this->SetUniform3fv("u_point_light.PointLightPosition", lightObj->GetPointLightPos());
+			this->SetUniform1f("u_point_light.ambient_intensity", lightObj->GetAmbientIntensity());
+			this->SetUniform1f("u_point_light.DiffuseIntensity", lightObj->GetDiffuseIntensity());
+			this->SetUniform3fv("u_point_light.LightColor", lightObj->GetLightColor());
+			this->SetUniform1f("u_point_light.quadratic", lightObj->GetAttenuationQuadratic());
+			this->SetUniform1f("u_point_light.linearv", lightObj->GetAttenuationLinear());
+			this->SetUniform1f("u_point_light.constant", lightObj->GetAttenuationConstant());
+		}
 	}
 }
 

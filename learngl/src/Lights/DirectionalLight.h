@@ -1,5 +1,6 @@
 #pragma once
 #include "Light.h"
+
 class DirectionalLight :
     public Light
 {
@@ -10,7 +11,7 @@ public:
     DirectionalLight();
     ~DirectionalLight(){}
     DirectionalLight(float ambientintensity, float red, float green, float blue,
-        float diffintensity, glm::vec3 diffusedirection, float specintensity, float spepcular_pow);
+        float diffintensity, glm::vec3 diffusedirection);
     void SetLightDirection(float x, float y, float z);
 
 };

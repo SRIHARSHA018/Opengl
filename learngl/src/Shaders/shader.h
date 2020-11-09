@@ -8,7 +8,8 @@
 #include<sstream>
 #include<string>
 #include<iostream>
-
+#include"src/Lights/DirectionalLight.h"
+#include"src/Lights/PointLight.h"
 //CLASS for shader
 namespace SJ_engine {
 	namespace SJ_shader {
@@ -33,6 +34,9 @@ namespace SJ_engine {
 			void SetUniform1f(const std::string& uniformname, float value);
 			void SetUniformMatrix4f(const std::string &uniformname, int size, const glm::mat4 &matrix);
 			unsigned int GetUniformLocation(const std::string &uniformname);
+			void SetDirectionalLightUniforms(DirectionalLight* lightObj);
+			void SetPointLightUniforms(PointLight* lightObj);
+
 		};
 	}
 }

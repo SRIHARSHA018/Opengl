@@ -6,8 +6,8 @@ DirectionalLight::DirectionalLight():Light()
 }
 
 DirectionalLight::DirectionalLight(float ambientintensity, float red, float green, float blue,
-	float diffintensity, glm::vec3 diffusedirection,
-	float specintensity, float spepcular_pow):Light(ambientintensity,red,green,blue,diffintensity,specintensity,spepcular_pow)
+	float diffintensity, glm::vec3 diffusedirection)
+	:Light(ambientintensity,red,green,blue,diffintensity)
 {
 	x_LightDirection = diffusedirection;
 
