@@ -1,5 +1,5 @@
 #version 460 core
-#define Max_Point_Lights 2
+#define Max_Point_Lights 10
 
 //structure for phonglighting model
 struct Material
@@ -40,7 +40,7 @@ layout(location = 0) out vec4 frag_color;
 //uniforms
 uniform float u_Dir_intensity;
 uniform int u_no_lights;
-uniform PointLight u_point_light[2];
+uniform PointLight u_point_light[Max_Point_Lights];
 uniform DirectionalLight u_directional_light;
 uniform Material u_material;
 uniform vec3 u_cameraPos;
@@ -99,7 +99,7 @@ void main()
 {
 	//output
 	vec4 result = CalDirectionalLight(u_directional_light, u_material, v_normal, v_texcoord)*u_Dir_intensity;
-	for(int i=0;i<(0+u_no_lights);i++)
+	for(int i=0;i<(u_no_lights);i++)
 	{
 		result+=CalPointLight(u_point_light[i],u_material,v_normal,v_texcoord);
 	}

@@ -23,6 +23,6 @@ public:
 	float GetAttenuationQuadratic() { return x_quadratic; }
 	void CreatePointLights(int& count);
 	int GetLightsCount() { return x_light_count; }
-	void SetPointLightUIcontroller( std::vector<glm::vec3> &color, std::vector<glm::vec3>&position);
+	void SetPointLightUIcontroller( std::vector<glm::vec3> &color, std::vector<glm::vec3>&position,int& count);
 };
 

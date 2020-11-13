@@ -26,24 +26,23 @@ void PointLight::SetAttenuationParameters(float a, float b, float c)
 
 void PointLight::CreatePointLights(int& count)
 {
-	if (x_light_count < count)
+	
+	
+	for (int i = 0; i < count; i++)
 	{
-		for (int i = 0; i < count; i++)
-		{
 
-			pointLights.push_back(PointLight(0.05f, 1.f, 1.f, 1.f, 1.0f));
-			pointLights[i].SetAttenuationParameters(0.032f, 0.09f, 1.0f);
-			x_light_count+=1;		
-		}
+		pointLights.push_back(PointLight(0.05f, 1.f, 1.f, 1.f, 1.0f));
+		pointLights[i].SetAttenuationParameters(0.032f, 0.09f, 1.0f);
+		x_light_count+=1;		
 	}
+	
 
 	
 }
 
-
-void PointLight::SetPointLightUIcontroller( std::vector<glm::vec3>& color, std::vector<glm::vec3>& position)
+void PointLight::SetPointLightUIcontroller( std::vector<glm::vec3>& color, std::vector<glm::vec3>& position,int& count)
 {
-	for (int i = 0; i < x_light_count; i++)
+	for (int i = 0; i < count; i++)
 	{
 		pointLights[i].SetLightColor(color[i]);
 		pointLights[i].SetPointLightPos(position[i]);

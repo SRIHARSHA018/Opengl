@@ -25,7 +25,7 @@ int main()
 	float directionalLightIntensity = 1.f;
 	glm::vec3 LightDirection(1.0f, 0.f, 0.f);
 	glm::vec3 bgColor(0.f, 0.f, 0.f);
-	int lightCount =2;
+	int lightCount =3;
 	std::vector<glm::vec3> PointLightColor(lightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> PointLightPosition(lightCount, { 0.f,0.f,0.f });
 
@@ -113,7 +113,6 @@ int main()
 	PointLight pointlight;
 	pointlight.CreatePointLights(lightCount);
 	
-
 	//Textures
 	Texture diffuse("src/textures/checkerboard.jpg");
 	diffuse.Bind();
@@ -160,7 +159,7 @@ int main()
 		//directional light ui
 		light.SetLightDirection(LightDirection.x, LightDirection.y, LightDirection.z);
 		
-		pointlight.SetPointLightUIcontroller(PointLightColor, PointLightPosition);
+		pointlight.SetPointLightUIcontroller(PointLightColor, PointLightPosition,lightCount);
 		//imgui window contents
 		{
 
