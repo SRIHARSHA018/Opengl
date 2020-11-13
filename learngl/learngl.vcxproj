@@ -101,6 +101,8 @@
     <ClInclude Include="src\graphics\Cl_window.h" />
     <ClInclude Include="resources\vendor\STB_image\stb_image.h" />
     <ClInclude Include="src\macros.h" />
+    <ClInclude Include="src\VertexArrays_Buffers\IndexBuffer.h" />
+    <ClInclude Include="src\VertexArrays_Buffers\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Lights\PointLight.cpp" />
@@ -118,15 +120,17 @@
     <ClCompile Include="src\textures\texture.cpp" />
     <ClCompile Include="src\graphics\Cl_window.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\VertexArrays_Buffers\IndexBuffer.cpp" />
+    <ClCompile Include="src\VertexArrays_Buffers\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
     <None Include="imgui.ini" />
-    <None Include="resources\basic_shaders\core_fs.shader" />
-    <None Include="resources\basic_shaders\core_vs.shader" />
-    <None Include="resources\basic_shaders\lightsources\f_sourceObject.shader" />
-    <None Include="resources\basic_shaders\lightsources\v_sourceObject.shader" />
+    <None Include="resources\basic_shaders\core_fs.glsl" />
+    <None Include="resources\basic_shaders\core_vs.glsl" />
+    <None Include="resources\basic_shaders\lightsources\f_sourceObject.glsl" />
+    <None Include="resources\basic_shaders\lightsources\v_sourceObject.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\checkerboard.jpg" />

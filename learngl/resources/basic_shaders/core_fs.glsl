@@ -1,9 +1,9 @@
 #version 460 core
+#define Max_Point_Lights 2
 
 //structure for phonglighting model
 struct Material
 {
-
 	sampler2D diffuse;
 	sampler2D specular;
 	float     specular_strength;
@@ -38,7 +38,9 @@ in vec3 frag_pos;
 layout(location = 0) out vec4 frag_color;
 
 //uniforms
-uniform PointLight u_point_light;
+uniform float u_Dir_intensity;
+uniform int u_no_lights;
+uniform PointLight u_point_light[2];
 uniform DirectionalLight u_directional_light;
 uniform Material u_material;
 uniform vec3 u_cameraPos;
@@ -63,6 +65,7 @@ vec4 CalDirectionalLight(DirectionalLight light, Material material, vec3 normal,
 	vec4 specular = vec4(light.LightColor *material.specular_intensity * specular_factor, 1.0f);
 
 	return ambient + diffuse + specular;
+
 }
 
 vec4 CalPointLight(PointLight light, Material material, vec3 normal, vec2 texturecoords)
@@ -89,16 +92,17 @@ vec4 CalPointLight(PointLight light, Material material, vec3 normal, vec2 textur
 	specular *= attenuation;
 	diffuse *= attenuation;
 	return vec4(ambient+diffuse+specular,1.0f);
+	
 }
-
 
 void main()
 {
-
 	//output
-	vec4 result = CalDirectionalLight(u_directional_light, u_material, v_normal, v_texcoord);
-
-	result += CalPointLight(u_point_light, u_material, v_normal, v_texcoord);
+	vec4 result = CalDirectionalLight(u_directional_light, u_material, v_normal, v_texcoord)*u_Dir_intensity;
+	for(int i=0;i<(0+u_no_lights);i++)
+	{
+		result+=CalPointLight(u_point_light[i],u_material,v_normal,v_texcoord);
+	}
 	frag_color = result;
 
 }

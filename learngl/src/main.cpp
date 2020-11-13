@@ -5,6 +5,7 @@
 #include"resources/vendor/ImGui/imgui_impl_glfw.h"
 #include "resources/vendor/ImGui/imgui_impl_opengl3.h"
 
+
 //Main function
 int main()
 {
@@ -21,54 +22,118 @@ int main()
 	ImGui::StyleColorsDark();
 
 	//imgui contents
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	float directionalLightIntensity = 1.f;
 	glm::vec3 LightDirection(1.0f, 0.f, 0.f);
-	glm::vec3 PointLightColor(1.f, 1.f, 1.f);
-	glm::vec3 bgColor(0.2f, 0.3f, 0.3f);
-	glm::vec3 pointLightPosition(0.f, 0.f, 0.f);
+	glm::vec3 bgColor(0.f, 0.f, 0.f);
+	int lightCount =2;
+	std::vector<glm::vec3> PointLightColor(lightCount, { 1.f,1.f,1.f });
+	std::vector<glm::vec3> PointLightPosition(lightCount, { 0.f,0.f,0.f });
 
 	//camera
 	SJ_engine::SJ_camera::Camera camera(glm::vec3(0.f, 0.f, 5.f), 2.f, 0.2f, -90.f, 0.f);
 
 	//meshes
-	SJ_engine::SJ_shader::shader cube("resources/basic_shaders/core_vs.shader", "resources/basic_shaders/core_fs.shader");
+	SJ_engine::SJ_shader::shader cube("resources/basic_shaders/core_vs.glsl", "resources/basic_shaders/core_fs.glsl");
 
-	SJ_engine::SJ_shader::shader lightcube("resources/basic_shaders/lightsources/v_sourceObject.shader",
-		"resources/basic_shaders/lightsources/f_sourceObject.shader");
-	SJ_engine::SJ_shader::shader PointLightCube("resources/basic_shaders/lightsources/v_sourceObject.shader",
-	 	"resources/basic_shaders/lightsources/f_sourceObject.shader");
+	SJ_engine::SJ_shader::shader lightcube("resources/basic_shaders/lightsources/v_sourceObject.glsl",
+		"resources/basic_shaders/lightsources/f_sourceObject.glsl");
+
+	//shading positions and indices
+	float vertexattribs[] =
+	{
+
+		//cube2
+		 //back face
+		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,	0.f,1.0f,    0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
+		//front face
+		-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
+		0.5f, -0.5f, 0.5f,		1.0f,0.f,	 0.0f,  0.0f, 1.0f,
+		0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
+		0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
+		-0.5f,  0.5f, 0.5f,		0.f,1.f,	 0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
+	   //left face									 
+		  -0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
+		  -0.5f,  0.5f, -0.5f,	1.0f,0.f,	 -1.0f,  0.0f,  0.0f,
+		  -0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
+		  -0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
+		  -0.5f, -0.5f,  0.5f,	0.f,1.f,	 -1.0f,  0.0f,  0.0f,
+		  -0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
+	  //RIGHT FACE									 
+		  0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
+		  0.5f,  0.5f, -0.5f,	1.0f,0.f,    1.0f,  0.0f,  0.0f,
+		  0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
+		  0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
+		  0.5f, -0.5f,  0.5f,	0.f,1.f,     1.0f,  0.0f,  0.0f,
+		  0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
+	  //bottom face								 
+		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
+		  0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f, -1.0f,  0.0f,
+		  0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
+		  0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
+		 -0.5f, -0.5f,  0.5f,	0.f,1.f,	 0.0f, -1.0f,  0.0f,
+		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
+	 //top face
+		-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,	1.0f,0.f,	 0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,	0.f,1.f,	 0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f
+	};
 	
+	//buffers for positions
+	VertexBuffer vbo(vertexattribs, sizeof(vertexattribs));
+
+	//VERTEX ATTRIBUTE POSITIONS
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+
+	//index buffer
+	//it can manage buffer data like Duplicate vertices
+	//IndexBuffer ibo(indices,36);
+
+	//VERTEX ATTRIBUTE TEXTURE COORDINATES
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+
+	//VERTEX ATTRIBUTE NORMALS
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+
 	//lights
 	DirectionalLight light(0.05f, 1.f, 1.f, 1.f,
 		3.f, glm::vec3(1.f, 1.f, 1.f));
 
-	PointLight pointLight(0.05f,PointLightColor.x,PointLightColor.y,PointLightColor.z, 1.f);
-	pointLight.SetAttenuationParameters(0.032f, 0.09f, 1.0f);
+	PointLight pointlight;
+	pointlight.CreatePointLights(lightCount);
+	
 
 	//Textures
 	Texture diffuse("src/textures/checkerboard.jpg");
 	diffuse.Bind();
-
 	
-	//buffer gen and binding
-	cube.GenBindData();
-
-	//perspective
-	glm::mat4 proj = glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 
 	//loop to progress
 	while (!Cl_window.closed())
 	{
-		Cl_window.clear(bgColor);
-
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		
+		Cl_window.clear(bgColor);
 
 		camera.update();
 		camera.keycontrol(&Cl_window, &cube);
+		//perspective
 		glm::mat4 proj = glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 		
+
 		//CubeMesh
 		cube.UseShaderProgram();
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -80,17 +145,9 @@ int main()
 		cube.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
 		cube.SetUniformMatrix4f("u_model", 1, camera.getModelMatrix());
 		cube.SetDirectionalLightUniforms(&light);
-		cube.SetPointLightUniforms(&pointLight);
-
-		//coordinate lines
-		glBegin(GL_LINES);
-		glVertex3f(0.f, 0.f, 0.f);
-		glVertex3f(10.f, 0.f, 0.f);
-		glVertex3f(0.f, 0.f, 0.f);
-		glVertex3f(0.f, 10.f, 0.f);
-		glVertex3f(0.f, 0.f, 0.f);
-		glVertex3f(0.f, 0.f, 10.f);
-		glEnd();
+		cube.SetUniform1f("u_Dir_intensity", directionalLightIntensity);
+		cube.SetUniform1i("u_no_lights", pointlight.GetLightsCount());
+		cube.SetPointLightUniforms(pointlight.pointLights, pointlight.GetLightsCount());
 
 
 		//DirectionalLight object
@@ -98,39 +155,30 @@ int main()
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		lightcube.SetUniformMatrix4f("u_Projection", 1, proj);
 		lightcube.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(LightDirection);
-		model = glm::scale(model, glm::vec3(0.2f));
-		lightcube.SetUniformMatrix4f("u_model", 1, model);
-		lightcube.SetUniform3fv("u_lightColor", light.GetLightColor());
-		lightcube.SetUniform1f("u_intensity", light.GetDiffuseIntensity());
+		SetLightObject(&light, &lightcube,LightDirection);
+		
+		//directional light ui
 		light.SetLightDirection(LightDirection.x, LightDirection.y, LightDirection.z);
-
-		//PointLightCube
-		PointLightCube.UseShaderProgram();
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		PointLightCube.SetUniformMatrix4f("u_Projection", 1, proj);
-		PointLightCube.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
-		glm::mat4 pointLightmodel = glm::mat4(1.0f);
-		pointLightmodel = glm::translate(pointLightPosition);
-		pointLightmodel = glm::scale(pointLightmodel, glm::vec3(0.2f));
-		PointLightCube.SetUniformMatrix4f("u_model", 1, pointLightmodel);
-		PointLightCube.SetUniform3fv("u_lightColor", pointLight.GetLightColor());
-		PointLightCube.SetUniform1f("u_intensity", pointLight.GetDiffuseIntensity());
-		pointLight.SetPointLightPos(pointLightPosition);
-		pointLight.SetLightColor(PointLightColor);
+		
+		pointlight.SetPointLightUIcontroller(PointLightColor, PointLightPosition);
 		//imgui window contents
 		{
 
-			ImGui::Begin("Background");                          // Create a window called "Hello, world!" and append into it.
+			ImGui::Begin("Background");                          
 			ImGui::ColorEdit3("backgroundColor", &bgColor.x);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			ImGui::End();
 
 			ImGui::Begin("Light");
-			ImGui::SliderFloat3("Directional Light", &LightDirection.x, -2.f, 2.f, "%.3f");          // Edit 1 float using a slide from 0.0f to 1.0f
-			ImGui::SliderFloat3("Point Light Position", &pointLightPosition.x, -20.f, 20.f, "%.3f");
-			ImGui::ColorEdit3("Point Light Color", &PointLightColor.x);
+			ImGui::SliderFloat3("Directional Light", &LightDirection.x, -2.f, 2.f, "%.3f");
+			ImGui::SliderFloat("Direcional Light Intensity", &directionalLightIntensity, 0.f, 1.f, "%.3f");
+			for (int i = 0; i < lightCount; i++)
+			{
+				std::string pos = "Point Light position" + std::to_string(i);
+				std::string color = "Point Light color" + std::to_string(i);
+				ImGui::SliderFloat3(pos.c_str(), &PointLightPosition[i].x, -20.f, 20.f, "%.3f");
+				ImGui::ColorEdit3(color.c_str(), &PointLightColor[i].x);
+			}
 			ImGui::End();
 		}
 		//navigation and control

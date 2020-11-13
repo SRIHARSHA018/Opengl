@@ -18,3 +18,5 @@ void DirectionalLight::SetLightDirection(float x, float y, float z)
 	x_LightDirection.y = y;
 	x_LightDirection.z = z;
 }
+
+

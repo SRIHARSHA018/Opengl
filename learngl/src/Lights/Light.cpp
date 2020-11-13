@@ -3,7 +3,7 @@
 Light::Light()
 {
 	x_AmbientIntensity = 1.f;
-	x_DiffuseIntensity = 0.5f;
+	x_DiffuseIntensity = 1.f;
 	x_Color = glm::vec3(1.f);
 	
 }
@@ -27,5 +27,7 @@ void Light::SetLightColor(glm::vec3& color)
 {
 	x_Color = color;
 }
+
+
 
 

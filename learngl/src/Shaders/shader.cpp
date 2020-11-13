@@ -103,146 +103,6 @@ namespace SJ_engine {
 			glUseProgram(x_Shader_Program_ID);
 		}
 
-		void shader::GenBindData()
-		{
-			//shading positions and indices
-			float positions[] =
-			{
-				////plane
-				////positions       //texture coords    //normals
-				//-1.f,-1.f,0.f,     0.f,0.f,           0.f,0.f,-1.f,
-				// 1.f,-1.f,0.f,     1.f,0.f,           0.f,0.f,-1.f,
-				// 1.f,1.f,0.f,      1.f,1.f,           0.f,0.f,-1.f,
-				// -1.f,1.f,0.f,     0.f,1.f,           0.f,0.f,-1.f
-				///*cube*/
-				//// front        //texture coordinates  //normals
-				// 1.0, -1.0,  1.0,   1.f,0.f,           0.f,0.f,1.f,
-				// 1.0,  1.0,  1.0,   1.f,1.f,           0.f,0.f,1.f,
-				//-1.0,  1.0,  1.0,   0.f,1.f,           0.f,0.f,1.f,
-				//-1.0, -1.0,  1.0,   0.f,0.f,           0.f,0.f,1.f,    
-				//// top
-				//-1.0,  1.0,  1.0,   0.f,0.f,           0.f,1.f,0.f,
-				// 1.0,  1.0,  1.0,	1.f,0.f,		   0.f,1.f,0.f,
-				// 1.0,  1.0, -1.0,	1.f,1.f,		   0.f,1.f,0.f,
-				//-1.0,  1.0, -1.0,	0.f,1.f,		   0.f,1.f,0.f,
-				//// back
-				// 1.0, -1.0, -1.0,   0.f,0.f,           0.f,0.f,-1.f,
-				//-1.0, -1.0, -1.0,	1.f,0.f,		   0.f,0.f,-1.f,
-				//-1.0,  1.0, -1.0,	1.f,1.f,		   0.f,0.f,-1.f,
-				// 1.0,  1.0, -1.0,	0.f,1.f,		   0.f,0.f,-1.f,
-				// // bottom
-				// -1.0, -1.0, -1.0,  0.f,0.f,           0.f,-1.f,0.f,
-				//  1.0, -1.0, -1.0,	1.f,0.f,		   0.f,-1.f,0.f,
-				//  1.0, -1.0,  1.0,	1.f,1.f,		   0.f,-1.f,0.f,
-				// -1.0, -1.0,  1.0,	0.f,1.f,		   0.f,-1.f,0.f,
-				// // left									   
-				// -1.0, -1.0, -1.0,  0.f,0.f,           -1.f,0.f,0.f,
-				// -1.0, -1.0,  1.0,	1.f,0.f,		   -1.f,0.f,0.f,
-				// -1.0,  1.0,  1.0,	1.f,1.f,		   -1.f,0.f,0.f,
-				// -1.0,  1.0, -1.0,	0.f,1.f,		   -1.f,0.f,0.f,
-				// // right									   
-				//  1.0, -1.0,  1.0,  0.f,0.f,           1.f,0.f,0.f,
-				//  1.0, -1.0, -1.0,	1.f,0.f,		   1.f,0.f,0.f,
-				//  1.0,  1.0, -1.0,	1.f,1.f,		   1.f,0.f,0.f,
-				//  1.0,  1.0,  1.0,	0.f,1.f,		   1.f,0.f,0.f,
-
-				//cube2
-				 //back face
-        		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
-				 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f,  0.0f, -1.0f,
-				 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
-				 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
-				-0.5f,  0.5f, -0.5f,	0.f,1.0f,    0.0f,  0.0f, -1.0f,
-				-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
-				 //front face
-				-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
-				 0.5f, -0.5f, 0.5f,		1.0f,0.f,	 0.0f,  0.0f, 1.0f,
-				 0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
-				 0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
-				-0.5f,  0.5f, 0.5f,		0.f,1.f,	 0.0f,  0.0f, 1.0f,
-				-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
-				 //left face									 
-				-0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
-				-0.5f,  0.5f, -0.5f,	1.0f,0.f,	 -1.0f,  0.0f,  0.0f,
-				-0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
-				-0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
-				-0.5f, -0.5f,  0.5f,	0.f,1.f,	 -1.0f,  0.0f,  0.0f,
-				-0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
-				 //RIGHT FACE									 
-				 0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
-				 0.5f,  0.5f, -0.5f,	1.0f,0.f,    1.0f,  0.0f,  0.0f,
-				 0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
-				 0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
-				 0.5f, -0.5f,  0.5f,	0.f,1.f,     1.0f,  0.0f,  0.0f,
-				 0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
-				 //bottom face								 
-				-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
-				 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f, -1.0f,  0.0f,
-				 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
-				 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
-				-0.5f, -0.5f,  0.5f,	0.f,1.f,	 0.0f, -1.0f,  0.0f,
-				-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
-				 //top face
-				-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f,
-				 0.5f,  0.5f, -0.5f,	1.0f,0.f,	 0.0f,  1.0f,  0.0f,
-				 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
-				 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
-				-0.5f,  0.5f,  0.5f,	0.f,1.f,	 0.0f,  1.0f,  0.0f,
-				-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f
-			};
-			unsigned int indices[] =
-			{
-				////plane
-				//0,1,2,
-				//0,2,3
-				//cube
-				// front
-				0,  1,  2,
-				2,  3,  0,
-				// top
-				4,  5,  6,
-				6,  7,  4,
-				// back
-				8,  9, 10,
-				10, 11,  8,
-				// bottom
-				12, 13, 14,
-				14, 15, 12,
-				// left
-				16, 17, 18,
-				18, 19, 16,
-				// right
-				20, 21, 22,
-				22, 23, 20,
-				
-			};
-
-			//buffers for positions
-			unsigned int buffers;
-			glGenBuffers(1, &buffers);
-			glBindBuffer(GL_ARRAY_BUFFER, buffers);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-			
-			//VERTEX ATTRIBUTE POSITIONS
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),(void*) 0);
-			
-			//index buffer
-			//it can manage buffer data like Duplicate vertices 
-			/*unsigned int indexbufferobj;
-			glGenBuffers(1, &indexbufferobj);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufferobj);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);*/
-
-			//VERTEX ATTRIBUTE TEXTURE COORDINATES
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-
-			//VERTEX ATTRIBUTE NORMALS
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
-		}
-
 		void shader::shaderdestroy()
 		{
 			//Deleting shader program
@@ -283,16 +143,23 @@ namespace SJ_engine {
 			this->SetUniform1f("u_directional_light.DiffuseIntensity", lightObj->GetDiffuseIntensity());
 			
 		}
-		void shader::SetPointLightUniforms(PointLight* lightObj)
+
+		void shader::SetPointLightUniforms(std::vector<PointLight>& lightObj,int count)
 		{
-			this->SetUniform3fv("u_point_light.PointLightPosition", lightObj->GetPointLightPos());
-			this->SetUniform1f("u_point_light.ambient_intensity", lightObj->GetAmbientIntensity());
-			this->SetUniform1f("u_point_light.DiffuseIntensity", lightObj->GetDiffuseIntensity());
-			this->SetUniform3fv("u_point_light.LightColor", lightObj->GetLightColor());
-			this->SetUniform1f("u_point_light.quadratic", lightObj->GetAttenuationQuadratic());
-			this->SetUniform1f("u_point_light.linearv", lightObj->GetAttenuationLinear());
-			this->SetUniform1f("u_point_light.constant", lightObj->GetAttenuationConstant());
+			for (int i = 0; i < count; i++)
+			{
+				std::string a = std::to_string(i);
+				this->SetUniform1f("u_point_light[" + a + "].ambient_intensity",lightObj[i].GetAmbientIntensity() );
+				this->SetUniform1f("u_point_light[" + a + "].DiffuseIntensity", lightObj[i].GetDiffuseIntensity());
+				this->SetUniform1f("u_point_light[" + a + "].quadratic", lightObj[i].GetAttenuationQuadratic());
+				this->SetUniform1f("u_point_light[" + a + "].linearv", lightObj[i].GetAttenuationLinear());
+				this->SetUniform1f("u_point_light[" + a + "].constant", lightObj[i].GetAttenuationConstant());
+				this->SetUniform3fv("u_point_light[" + a + "].PointLightPosition", lightObj[i].GetPointLightPos());
+				this->SetUniform3fv("u_point_light[" + a + "].LightColor", lightObj[i].GetLightColor());
+			}
+
 		}
+
 	}
 }
 
