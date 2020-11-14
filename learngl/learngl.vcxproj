@@ -96,6 +96,8 @@
     <ClInclude Include="src\Lights\DirectionalLight.h" />
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Lights\Light.h" />
+    <ClInclude Include="src\Lights\SpotLight.h" />
+    <ClInclude Include="src\Materials\Material.h" />
     <ClInclude Include="src\Shaders\shader.h" />
     <ClInclude Include="src\textures\texture.h" />
     <ClInclude Include="src\graphics\Cl_window.h" />
@@ -115,6 +117,8 @@
     <ClCompile Include="src\Lights\DirectionalLight.cpp" />
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="src\Lights\Light.cpp" />
+    <ClCompile Include="src\Lights\SpotLight .cpp" />
+    <ClCompile Include="src\Materials\Material.cpp" />
     <ClCompile Include="src\Shaders\shader.cpp" />
     <ClCompile Include="resources\vendor\STB_image\stb_image.cpp" />
     <ClCompile Include="src\textures\texture.cpp" />
@@ -133,7 +137,8 @@
     <None Include="resources\basic_shaders\lightsources\v_sourceObject.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\textures\checkerboard.jpg" />
+    <Image Include="src\textures\container2.png" />
+    <Image Include="src\textures\container2_specular.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

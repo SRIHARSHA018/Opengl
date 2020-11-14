@@ -157,6 +157,26 @@ namespace SJ_engine {
 				this->SetUniform3fv("u_point_light[" + a + "].PointLightPosition", lightObj[i].GetPointLightPos());
 				this->SetUniform3fv("u_point_light[" + a + "].LightColor", lightObj[i].GetLightColor());
 			}
+			this->SetUniform1i("u_no_point_lights", count);
+
+		}
+		void shader::SetSpotLightUniforms(std::vector<SpotLight>& lightObj, int count)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				std::string a = std::to_string(i);
+				this->SetUniform1f("u_spot_light[" + a + "].ambient_intensity", lightObj[i].GetAmbientIntensity());
+				this->SetUniform1f("u_spot_light[" + a + "].DiffuseIntensity", lightObj[i].GetDiffuseIntensity());
+				this->SetUniform1f("u_spot_light[" + a + "].quadratic", lightObj[i].GetAttenuationQuadratic());
+				this->SetUniform1f("u_spot_light[" + a + "].linearv", lightObj[i].GetAttenuationLinear());
+				this->SetUniform1f("u_spot_light[" + a + "].constant", lightObj[i].GetAttenuationConstant());
+				this->SetUniform3fv("u_spot_light[" + a + "].SpotLightPosition", lightObj[i].GetSpotLightPos());
+				this->SetUniform3fv("u_spot_light[" + a + "].direction", lightObj[i].GetSpotLightDir());
+				this->SetUniform3fv("u_spot_light[" + a + "].LightColor", lightObj[i].GetLightColor());
+				this->SetUniform1f("u_spot_light[" + a + "].cutoff", lightObj[i].GetSpotLightCutOff());
+				this->SetUniform1f("u_spot_light[" + a + "].OuterCutOff", lightObj[i].GetSpotLightOuterCutOff());
+			}
+			this->SetUniform1i("u_no_spot_lights", count);
 
 		}
 

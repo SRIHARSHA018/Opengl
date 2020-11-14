@@ -10,6 +10,7 @@
 #include<iostream>
 #include"src/Lights/DirectionalLight.h"
 #include"src/Lights/PointLight.h"
+#include"src/Lights/SpotLight.h"
 #include"src/VertexArrays_Buffers/VertexBuffer.h"
 #include"src/VertexArrays_Buffers/IndexBuffer.h"
 
@@ -41,6 +42,7 @@ namespace SJ_engine {
 			void SetUniformMatrix4f(const std::string &uniformname, int size, const glm::mat4 &matrix);
 			void SetDirectionalLightUniforms(DirectionalLight* lightObj);
 			void SetPointLightUniforms(std::vector<PointLight>& lightObj,int count);
+			void SetSpotLightUniforms(std::vector<SpotLight>& lightObj, int count);
 		};
 
 		template<typename C>
