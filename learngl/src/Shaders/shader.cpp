@@ -165,14 +165,14 @@ namespace SJ_engine {
 			for (int i = 0; i < count; i++)
 			{
 				std::string a = std::to_string(i);
-				this->SetUniform1f("u_spot_light[" + a + "].ambient_intensity", lightObj[i].GetAmbientIntensity());
-				this->SetUniform1f("u_spot_light[" + a + "].DiffuseIntensity", lightObj[i].GetDiffuseIntensity());
-				this->SetUniform1f("u_spot_light[" + a + "].quadratic", lightObj[i].GetAttenuationQuadratic());
-				this->SetUniform1f("u_spot_light[" + a + "].linearv", lightObj[i].GetAttenuationLinear());
-				this->SetUniform1f("u_spot_light[" + a + "].constant", lightObj[i].GetAttenuationConstant());
+				this->SetUniform1f("u_spot_light[" + a + "].base.ambient_intensity", lightObj[i].GetAmbientIntensity());
+				this->SetUniform1f("u_spot_light[" + a + "].base.DiffuseIntensity", lightObj[i].GetDiffuseIntensity());
+				this->SetUniform1f("u_spot_light[" + a + "].base.quadratic", lightObj[i].GetAttenuationQuadratic());
+				this->SetUniform1f("u_spot_light[" + a + "].base.linearv", lightObj[i].GetAttenuationLinear());
+				this->SetUniform1f("u_spot_light[" + a + "].base.constant", lightObj[i].GetAttenuationConstant());
 				this->SetUniform3fv("u_spot_light[" + a + "].SpotLightPosition", lightObj[i].GetSpotLightPos());
 				this->SetUniform3fv("u_spot_light[" + a + "].direction", lightObj[i].GetSpotLightDir());
-				this->SetUniform3fv("u_spot_light[" + a + "].LightColor", lightObj[i].GetLightColor());
+				this->SetUniform3fv("u_spot_light[" + a + "].base.LightColor", lightObj[i].GetLightColor());
 				this->SetUniform1f("u_spot_light[" + a + "].cutoff", lightObj[i].GetSpotLightCutOff());
 				this->SetUniform1f("u_spot_light[" + a + "].OuterCutOff", lightObj[i].GetSpotLightOuterCutOff());
 			}

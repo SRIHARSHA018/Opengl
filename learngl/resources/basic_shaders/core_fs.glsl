@@ -33,15 +33,9 @@ struct SpotLight
 	
 	vec3 direction;
 	vec3 SpotLightPosition;
-	float ambient_intensity;
-	float DiffuseIntensity;
-	vec3 LightColor;
 	float cutoff;
 	float OuterCutOff;
-	float quadratic;
-	float linearv;
-	float constant;
-	
+	PointLight base;	
 };
 //in's
 in vec2 v_texcoord;
@@ -119,27 +113,25 @@ vec4 CalSpotLight(SpotLight light, Material material, vec3 normal, vec2 texturec
 	float intensity =clamp((theta-light.OuterCutOff)/epsilon,0.f,1.f);
 
 	//ambient
-	vec3 ambient = light.LightColor * light.ambient_intensity * vec3(texture(material.diffuse, texturecoords));
+	vec3 ambient = light.base.LightColor * light.base.ambient_intensity * vec3(texture(material.diffuse, texturecoords));
 
 	//diffuse
 	float diffuse_factor = max(dot(normalize(normal), lightDir), 0.f);
-	vec3 diffuse = light.LightColor * diffuse_factor * light.DiffuseIntensity * vec3(texture(material.diffuse, texturecoords));
+	vec3 diffuse = light.base.LightColor * diffuse_factor * light.base.DiffuseIntensity * vec3(texture(material.diffuse, texturecoords));
 	diffuse *=intensity;
 	//specular
 	vec3 V = normalize(u_cameraPos - frag_pos);
 	vec3 R = reflect(-lightDir, normalize(normal));
 	float specular_factor = pow(max(dot(V, R), 0.f),material.specular_strength);
-	vec3 specular = (light.LightColor * specular_factor*vec3(texture(material.specular,texturecoords)));
+	vec3 specular = (light.base.LightColor * specular_factor*vec3(texture(material.specular,texturecoords)));
 	specular*=intensity;
 	//attenuation
 	float distance = length(light.SpotLightPosition-frag_pos);
-	float attenuation = 1.f / (light.quadratic * distance * distance + light.linearv * distance + light.constant);
+	float attenuation = 1.f / (light.base.quadratic * distance * distance + light.base.linearv * distance + light.base.constant);
 	ambient *= attenuation;
 	specular *= attenuation;
 	diffuse *= attenuation;
 	return vec4(ambient+diffuse+specular,1.0f);
-	
-	
 	
 }
 

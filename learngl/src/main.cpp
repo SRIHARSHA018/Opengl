@@ -3,6 +3,7 @@
 #include"src/textures/texture.h"
 #include"Camera/Camera.h"
 #include"src/Materials/Material.h"
+#include"src/VertexArrays_Buffers/Mesh.h"
 #include"resources/vendor/ImGui/imgui_impl_glfw.h"
 #include "resources/vendor/ImGui/imgui_impl_opengl3.h"
 
@@ -21,7 +22,7 @@ int main()
 	ImGui_ImplOpenGL3_Init("#version 460");
 	ImGui::StyleColorsDark();
 
-	//imgui contents
+	//imgui contents==============================================
 	float directionalLightIntensity = 1.f;
 	glm::vec3 LightDirection(1.0f, 0.f, 0.f);
 	glm::vec3 bgColor(0.f, 0.f, 0.f);
@@ -41,76 +42,10 @@ int main()
 	SJ_engine::SJ_camera::Camera camera(glm::vec3(0.f, 0.f, 5.f), 2.f, 0.2f, -90.f, 0.f);
 
 	//meshes
-	SJ_engine::SJ_shader::shader cube("resources/basic_shaders/core_vs.glsl", "resources/basic_shaders/core_fs.glsl");
+	SJ_engine::SJ_shader::shader ShaderProgram("resources/basic_shaders/core_vs.glsl", "resources/basic_shaders/core_fs.glsl");
+	Mesh cube(0);
 
-	SJ_engine::SJ_shader::shader lightcube("resources/basic_shaders/lightsources/v_sourceObject.glsl",
-		"resources/basic_shaders/lightsources/f_sourceObject.glsl");
-
-	//shading positions and indices
-	float vertexattribs[] =
-	{
-
-		//cube2
-		 //back face
-		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
-		 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f,  0.0f, -1.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f,1.0f,	 0.0f,  0.0f, -1.0f,
-		-0.5f,  0.5f, -0.5f,	0.f,1.0f,    0.0f,  0.0f, -1.0f,
-		-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f,  0.0f, -1.0f,
-		//front face
-		-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
-		0.5f, -0.5f, 0.5f,		1.0f,0.f,	 0.0f,  0.0f, 1.0f,
-		0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
-		0.5f,  0.5f, 0.5f,		1.f,1.f,	 0.0f,  0.0f, 1.0f,
-		-0.5f,  0.5f, 0.5f,		0.f,1.f,	 0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, 0.5f,		0.f,0.f,	 0.0f,  0.0f, 1.0f,
-	   //left face									 
-		  -0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
-		  -0.5f,  0.5f, -0.5f,	1.0f,0.f,	 -1.0f,  0.0f,  0.0f,
-		  -0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
-		  -0.5f, -0.5f, -0.5f,	1.f,1.f,	 -1.0f,  0.0f,  0.0f,
-		  -0.5f, -0.5f,  0.5f,	0.f,1.f,	 -1.0f,  0.0f,  0.0f,
-		  -0.5f,  0.5f,  0.5f,	0.f,0.f,	 -1.0f,  0.0f,  0.0f,
-	  //RIGHT FACE									 
-		  0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
-		  0.5f,  0.5f, -0.5f,	1.0f,0.f,    1.0f,  0.0f,  0.0f,
-		  0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
-		  0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
-		  0.5f, -0.5f,  0.5f,	0.f,1.f,     1.0f,  0.0f,  0.0f,
-		  0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
-	  //bottom face								 
-		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
-		  0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f, -1.0f,  0.0f,
-		  0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
-		  0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
-		 -0.5f, -0.5f,  0.5f,	0.f,1.f,	 0.0f, -1.0f,  0.0f,
-		 -0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
-	 //top face
-		-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f,0.f,	 0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,	0.f,1.f,	 0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f
-	};
-	
-	//buffers for positions
-	VertexBuffer vbo(vertexattribs, sizeof(vertexattribs));
-
-	//VERTEX ATTRIBUTE POSITIONS
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-
-	//VERTEX ATTRIBUTE TEXTURE COORDINATES
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-
-	//VERTEX ATTRIBUTE NORMALS
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
-
-	//lights
+	//lights=====================================================
 	DirectionalLight light(0.05f, 1.f, 1.f, 1.f,
 		3.f, glm::vec3(1.f, 1.f, 1.f));
 
@@ -125,6 +60,7 @@ int main()
 	Texture specular("src/textures/container2_specular.png", 1);
 	diffuse.Bind();
 	specular.Bind();
+
 	//material
 	Material material0(diffuse.GetTextureSlot(), 256.f, specular.GetTextureSlot());
 
@@ -138,32 +74,25 @@ int main()
 		Cl_window.clear(bgColor);
 
 		camera.update();
-		camera.keycontrol(&Cl_window, &cube);
+		camera.keycontrol(&Cl_window, &ShaderProgram);
 		//perspective
 		glm::mat4 proj=glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 		//CubeMesh
-		cube.UseShaderProgram();
-		material0.AssignMaterial(&cube);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		cube.DrawMesh(&ShaderProgram,&material0);
 
 		//Camera
-		cube.SetUniform3fv("u_cameraPos", camera.getcamPos());
-		cube.SetUniformMatrix4f("u_Projection", 1, proj);
-		cube.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
-		cube.SetUniformMatrix4f("u_model", 1, camera.getModelMatrix());
+		ShaderProgram.SetUniform3fv("u_cameraPos", camera.getcamPos());
+		ShaderProgram.SetUniformMatrix4f("u_Projection", 1, proj);
+		ShaderProgram.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
+		ShaderProgram.SetUniformMatrix4f("u_model", 1, camera.getModelMatrix());
 
 		//Lights uniforms
-		cube.SetDirectionalLightUniforms(&light);
-		cube.SetUniform1f("u_Dir_intensity", directionalLightIntensity);
-		cube.SetPointLightUniforms(pointlight.pointLights, pointlight.GetLightsCount());
-		cube.SetSpotLightUniforms(spotlight.SpotLights, spotlight.GetLightsCount());
+		ShaderProgram.SetDirectionalLightUniforms(&light);
+		ShaderProgram.SetUniform1f("u_Dir_intensity", directionalLightIntensity);
+		ShaderProgram.SetPointLightUniforms(pointlight.pointLights, pointlight.GetLightsCount());
+		ShaderProgram.SetSpotLightUniforms(spotlight.SpotLights, spotlight.GetLightsCount());
 
-		//DirectionalLight object
-		lightcube.UseShaderProgram();
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		lightcube.SetUniformMatrix4f("u_Projection", 1, proj);
-		lightcube.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
-		SetLightObject(&light, &lightcube,LightDirection);
 		
 		//directional light ui
 		light.SetLightDirection(LightDirection.x, LightDirection.y, LightDirection.z);
@@ -215,7 +144,7 @@ int main()
 	//destroy the shader program
 	diffuse.~Texture();
 	specular.~Texture();
-	cube.shaderdestroy();
+	ShaderProgram.shaderdestroy();
 
 	//exits application
 	return 0;

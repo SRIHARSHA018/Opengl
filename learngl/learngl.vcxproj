@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\VertexArrays_Buffers\Mesh.h" />
     <ClInclude Include="src\Lights\PointLight.h" />
     <ClInclude Include="resources\vendor\ImGui\imconfig.h" />
     <ClInclude Include="resources\vendor\ImGui\imgui.h" />
@@ -107,6 +108,7 @@
     <ClInclude Include="src\VertexArrays_Buffers\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\VertexArrays_Buffers\Mesh.cpp" />
     <ClCompile Include="src\Lights\PointLight.cpp" />
     <ClCompile Include="resources\vendor\ImGui\imgui.cpp" />
     <ClCompile Include="resources\vendor\ImGui\imgui_demo.cpp" />

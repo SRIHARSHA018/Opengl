@@ -78,6 +78,9 @@
     <ClInclude Include="src\Lights\SpotLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\VertexArrays_Buffers\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\Cl_window.cpp">
@@ -135,6 +138,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Lights\SpotLight .cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexArrays_Buffers\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
