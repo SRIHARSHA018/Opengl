@@ -6,6 +6,7 @@ struct Vertex
 	glm::vec2 TextureCoordinates;
 	glm::vec3 vertexNormals;
 };
+
 class VertexBuffer
 {
 private:

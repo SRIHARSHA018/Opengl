@@ -7,7 +7,6 @@ struct Material
 	sampler2D diffuse;
 	sampler2D specular;
 	float     specular_strength;
-	float     specular_intensity;
 };
 
 struct DirectionalLight

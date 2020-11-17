@@ -160,5 +160,11 @@
     <Image Include="src\textures\container2_specular.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="src\textures\checkerboard.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\textures\checkerboard_specular.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

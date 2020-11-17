@@ -2,7 +2,6 @@
 #include<string>
 #include<GL/glew.h>
 
-
 class Texture
 {
 private:
@@ -10,7 +9,7 @@ private:
 	std::string x_FilePath;
 	unsigned char* x_Local_Buffers;
 	int x_Width, x_Height, x_BPP;
-	unsigned int x_Slot ;
+	unsigned int x_Slot=0;
 public:
 	Texture(const std::string& path, unsigned int slot);
 	~Texture();

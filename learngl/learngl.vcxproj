@@ -139,6 +139,8 @@
     <None Include="resources\basic_shaders\lightsources\v_sourceObject.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="src\textures\checkerboard.jpg" />
+    <Image Include="src\textures\checkerboard_specular.jpg" />
     <Image Include="src\textures\container2.png" />
     <Image Include="src\textures\container2_specular.png" />
   </ItemGroup>

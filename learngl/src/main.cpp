@@ -2,7 +2,6 @@
 #include"graphics/Cl_window.h"
 #include"src/textures/texture.h"
 #include"Camera/Camera.h"
-#include"src/Materials/Material.h"
 #include"src/VertexArrays_Buffers/Mesh.h"
 #include"resources/vendor/ImGui/imgui_impl_glfw.h"
 #include "resources/vendor/ImGui/imgui_impl_opengl3.h"
@@ -23,6 +22,7 @@ int main()
 	ImGui::StyleColorsDark();
 
 	//imgui contents==============================================
+	glm::vec3 position = glm::vec3(1.0f);
 	float directionalLightIntensity = 1.f;
 	glm::vec3 LightDirection(1.0f, 0.f, 0.f);
 	glm::vec3 bgColor(0.f, 0.f, 0.f);
@@ -37,13 +37,15 @@ int main()
 	std::vector<float> SpotLightCutOff(SpotLightCount, glm::cos(glm::radians(12.5f)));
 	std::vector<float> SpotLightOuterCutOff(SpotLightCount, glm::cos(glm::radians(17.5f)));
 
-
 	//camera
 	SJ_engine::SJ_camera::Camera camera(glm::vec3(0.f, 0.f, 5.f), 2.f, 0.2f, -90.f, 0.f);
 
 	//meshes
 	SJ_engine::SJ_shader::shader ShaderProgram("resources/basic_shaders/core_vs.glsl", "resources/basic_shaders/core_fs.glsl");
+
+
 	Mesh cube(0);
+	Mesh plane(1);
 
 	//lights=====================================================
 	DirectionalLight light(0.05f, 1.f, 1.f, 1.f,
@@ -58,11 +60,17 @@ int main()
 	//Textures
 	Texture diffuse("src/textures/container2.png", 0);
 	Texture specular("src/textures/container2_specular.png", 1);
+	Texture checker_diffuse("src/textures/checkerboard.jpg", 2);
+	Texture checker_specular("src/textures/checkerboard_specular.jpg", 3);
+
 	diffuse.Bind();
 	specular.Bind();
+	checker_diffuse.Bind();
+	checker_specular.Bind();
 
 	//material
-	Material material0(diffuse.GetTextureSlot(), 256.f, specular.GetTextureSlot());
+	Material material0(diffuse.GetTextureSlot(), 120.f, specular.GetTextureSlot());
+	Material material1(checker_diffuse.GetTextureSlot(), 120.f,checker_specular.GetTextureSlot());
 
 	//loop to progress
 	while (!Cl_window.closed())
@@ -78,14 +86,17 @@ int main()
 		//perspective
 		glm::mat4 proj=glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 		//CubeMesh
-
 		cube.DrawMesh(&ShaderProgram,&material0);
+		ShaderProgram.SetUniformMatrix4f("u_model", 1,cube.GetModelMatrix());
+
+		plane.DrawMesh(&ShaderProgram,&material1);
+		ShaderProgram.SetUniformMatrix4f("u_model", 1,plane.GetModelMatrix());
+
 
 		//Camera
 		ShaderProgram.SetUniform3fv("u_cameraPos", camera.getcamPos());
 		ShaderProgram.SetUniformMatrix4f("u_Projection", 1, proj);
 		ShaderProgram.SetUniformMatrix4f("u_View", 1, camera.getViewMatrix());
-		ShaderProgram.SetUniformMatrix4f("u_model", 1, camera.getModelMatrix());
 
 		//Lights uniforms
 		ShaderProgram.SetDirectionalLightUniforms(&light);
@@ -142,8 +153,10 @@ int main()
 	}
 
 	//destroy the shader program
-	diffuse.~Texture();
-	specular.~Texture();
+	checker_diffuse.UnBind();
+	checker_specular.UnBind();
+	diffuse.UnBind();
+	specular.UnBind();
 	ShaderProgram.shaderdestroy();
 
 	//exits application
