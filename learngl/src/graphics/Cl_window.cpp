@@ -22,6 +22,7 @@ namespace SJ_engine {
 			}
 		}
 	}
+
 	void Cl_window::Mouse_button_fun(GLFWwindow* window, int button, int action, int mods)
 	{
 		Cl_window* win = static_cast<Cl_window*>(glfwGetWindowUserPointer(window));
@@ -57,11 +58,13 @@ namespace SJ_engine {
 		win->xcursorLast = xpos;
 		win->ycursorLast = ypos;
 	}
+
 	//prototype for window resize when callback
 	void ResizeWindow(GLFWwindow * window,int Width,int Height)
 	{
 		glViewport(0, 0,Width,Height);
 	}
+
 	//constrctor to intialize the window creation
 	Cl_window::Cl_window(int Width, int Height, const char* Title)
 	{

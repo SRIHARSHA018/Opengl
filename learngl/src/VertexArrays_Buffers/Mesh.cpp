@@ -15,9 +15,9 @@ Mesh::Mesh(int primitive)
 }
 
 
-void Mesh::x_setup_mesh(const void* data,unsigned int size)
+void Mesh::x_setup_mesh(const void* data, unsigned int size)
 {
-	
+
 	GenBuffer(data, size);
 	glCreateVertexArrays(1, &x_vao);
 	glBindVertexArray(x_vao);
@@ -44,12 +44,11 @@ void Mesh::x_InitModelMatrix()
 	x_ModelMatrix = glm::rotate(x_ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
 	x_ModelMatrix = glm::scale(x_ModelMatrix, glm::vec3(1.0f));
 }
-void Mesh::DrawMesh(SJ_engine::SJ_shader::shader* obj, Material* mat_Obj)
+void Mesh::DrawMesh(SJ_engine::SJ_shader::shader* obj)
 {
 	obj->UseShaderProgram();
 	Bind();
 	glBindVertexArray(this->x_vao);
-	mat_Obj->AssignMaterial(obj);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 void Mesh::CreateCube()
@@ -86,22 +85,22 @@ void Mesh::CreateCube()
 		  0.5f, -0.5f, -0.5f,	1.f,1.f,     1.0f,  0.0f,  0.0f,
 		  0.5f, -0.5f,  0.5f,	0.f,1.f,     1.0f,  0.0f,  0.0f,
 		  0.5f,  0.5f,  0.5f,	0.f,0.f,     1.0f,  0.0f,  0.0f,
-	  //bottom face								 
-		-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
-		 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f, -1.0f,  0.0f,
-		 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
-		 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,	0.f,1.f,	 0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
-		//top face
-		-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f,0.f,	 0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,	0.f,1.f,	 0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f
+		  //bottom face								 
+			-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f, -0.5f,	1.0f,0.f,	 0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f,  0.5f,	1.f,1.f,	 0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f,  0.5f,	0.f,1.f,	 0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f,	0.f,0.f,	 0.0f, -1.0f,  0.0f,
+			//top face
+			-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f, -0.5f,	1.0f,0.f,	 0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,	1.f,1.f,	 0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f,  0.5f,	0.f,1.f,	 0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f, -0.5f,	0.f,0.f,	 0.0f,  1.0f,  0.0f
 	};
-	x_setup_mesh(&cubepoints,sizeof(cubepoints));
+	x_setup_mesh(&cubepoints, sizeof(cubepoints));
 }
 void Mesh::CreatePlane()
 {
@@ -117,12 +116,12 @@ void Mesh::CreatePlane()
 		 10.f,-1.f,10.f,       1.f,1.f,                    0.f,1.f,0.f,
 		 -10.f,-1.f,10.f,      0.f,1.f,                    0.f,1.f,0.f,
 	};
-	 x_setup_mesh(&planepoints,sizeof(planepoints));
+	x_setup_mesh(&planepoints, sizeof(planepoints));
 }
 
 void Mesh::SetTranslation(const glm::vec3& position)
 {
-	x_ModelMatrix = glm::translate(x_ModelMatrix,position);
+	x_ModelMatrix = glm::translate(x_ModelMatrix, position);
 	x_ModelMatrix = glm::rotate(x_ModelMatrix, glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
 	x_ModelMatrix = glm::rotate(x_ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f));
 	x_ModelMatrix = glm::rotate(x_ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));

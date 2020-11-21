@@ -5,7 +5,8 @@
 #include"src/VertexArrays_Buffers/Mesh.h"
 #include"resources/vendor/ImGui/imgui_impl_glfw.h"
 #include "resources/vendor/ImGui/imgui_impl_opengl3.h"
-
+#include"Materials/BasicMaterial.h"
+#include"Materials/StandardMaterial.h"
 //Main function
 int main()
 {
@@ -26,10 +27,10 @@ int main()
 	float directionalLightIntensity = 1.f;
 	glm::vec3 LightDirection(1.0f, 0.f, 0.f);
 	glm::vec3 bgColor(0.f, 0.f, 0.f);
-	int PointLightCount =1;
+	int PointLightCount = 1;
 	std::vector<glm::vec3> PointLightColor(PointLightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> PointLightPosition(PointLightCount, { 0.f,0.f,0.f });
-	    //spotlights imgui
+	//spotlights imgui
 	int SpotLightCount = 1;
 	std::vector<glm::vec3> SpotLightColor(SpotLightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> SpotLightPosition(SpotLightCount, { 0.f,0.f,0.f });
@@ -69,8 +70,9 @@ int main()
 	checker_specular.Bind();
 
 	//material
-	Material material0(diffuse.GetTextureSlot(), 120.f, specular.GetTextureSlot());
-	Material material1(checker_diffuse.GetTextureSlot(), 120.f,checker_specular.GetTextureSlot());
+	BasicMaterial cubeMaterial(diffuse.GetTextureSlot(), specular.GetTextureSlot(), 120.f);
+	//BasicMaterial planeMaterial(checker_diffuse.GetTextureSlot(), checker_specular.GetTextureSlot(), 120.f);
+	StandardMaterial planeMaterial(StandardMaterial::gold);
 
 	//loop to progress
 	while (!Cl_window.closed())
@@ -78,19 +80,21 @@ int main()
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		
+
 		Cl_window.clear(bgColor);
 
 		camera.update();
 		camera.keycontrol(&Cl_window, &ShaderProgram);
 		//perspective
-		glm::mat4 proj=glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
+		glm::mat4 proj = glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 		//CubeMesh
-		cube.DrawMesh(&ShaderProgram,&material0);
-		ShaderProgram.SetUniformMatrix4f("u_model", 1,cube.GetModelMatrix());
+		cubeMaterial.AssignMaterial(&ShaderProgram);
+		cube.DrawMesh(&ShaderProgram);
+		ShaderProgram.SetUniformMatrix4f("u_model", 1, cube.GetModelMatrix());
 
-		plane.DrawMesh(&ShaderProgram,&material1);
-		ShaderProgram.SetUniformMatrix4f("u_model", 1,plane.GetModelMatrix());
+		planeMaterial.AssignMaterial(&ShaderProgram);
+		plane.DrawMesh(&ShaderProgram);
+		ShaderProgram.SetUniformMatrix4f("u_model", 1, plane.GetModelMatrix());
 
 
 		//Camera
@@ -104,18 +108,18 @@ int main()
 		ShaderProgram.SetPointLightUniforms(pointlight.pointLights, pointlight.GetLightsCount());
 		ShaderProgram.SetSpotLightUniforms(spotlight.SpotLights, spotlight.GetLightsCount());
 
-		
+
 		//directional light ui
 		light.SetLightDirection(LightDirection.x, LightDirection.y, LightDirection.z);
-		pointlight.SetPointLightUIcontroller(PointLightColor, PointLightPosition,PointLightCount);
+		pointlight.SetPointLightUIcontroller(PointLightColor, PointLightPosition, PointLightCount);
 		spotlight.SetSpotLightUIcontroller(SpotLightColor, SpotLightPosition, SpotLightDirection,
-			SpotLightCutOff,SpotLightOuterCutOff,
+			SpotLightCutOff, SpotLightOuterCutOff,
 			SpotLightCount);
 
 		//imgui window contents
 		{
 
-			ImGui::Begin("Background");                          
+			ImGui::Begin("Background");
 			ImGui::ColorEdit3("backgroundColor", &bgColor.x);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			ImGui::End();

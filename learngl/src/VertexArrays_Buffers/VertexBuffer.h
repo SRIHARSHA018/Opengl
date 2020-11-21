@@ -12,7 +12,7 @@ class VertexBuffer
 private:
 	unsigned int x_id;
 public:
-	VertexBuffer(){}
+	VertexBuffer() {}
 	~VertexBuffer();
 	void GenBuffer(const void* data, unsigned int& size);
 	void Bind() const;

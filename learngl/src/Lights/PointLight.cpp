@@ -1,6 +1,8 @@
 #include "PointLight.h"
 int PointLight::x_light_count = 0;
 
+
+
 PointLight::PointLight()
 	:Light()
 {
@@ -47,5 +49,6 @@ void PointLight::SetPointLightUIcontroller( std::vector<glm::vec3>& color, std::
 		pointLights[i].SetLightColor(color[i]);
 		pointLights[i].SetPointLightPos(position[i]);
 	}
+
 }
 

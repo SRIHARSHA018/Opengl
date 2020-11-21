@@ -7,5 +7,5 @@ uniform float u_intensity;
 
 void main()
 {
-    FragColor = vec4(u_lightColor*u_intensity,1.0f); // set alle 4 vector values to 1.0
+    FragColor = vec4(vec3(1.f),1.0f); // set alle 4 vector values to 1.0
 }

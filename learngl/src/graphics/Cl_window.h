@@ -21,6 +21,12 @@ namespace SJ_engine {
 		int ScreenWidth, ScreenHeight;
 		bool keys[1024];
 		bool mousebuttons[3];
+		double xChange;
+		double yChange;
+		double xcursorLast = 0;
+		bool MouseFirstMoved = true;
+		double ycursorLast = 0;
+		float GetAspectRatio();
 	private:
 		static void InputKeys(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
@@ -28,12 +34,5 @@ namespace SJ_engine {
 		int x_Win_Height, x_Win_Width;
 		const char* x_Name;
 		GLFWwindow* x_window;
-	public:
-		double xChange;
-		double yChange;
-		double xcursorLast=0;
-		bool MouseFirstMoved = true;
-		double ycursorLast=0;
-		float GetAspectRatio();
 	};
 }
