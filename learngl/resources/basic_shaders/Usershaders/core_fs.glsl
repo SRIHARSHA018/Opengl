@@ -4,6 +4,7 @@
 #define Standard_mat 0
 #define base_mat 1
 
+
 struct BaseMaterial
 {
 	sampler2D diffuse;
@@ -55,8 +56,7 @@ in vec2 v_texcoord;
 in vec3 v_normal;
 in vec3 frag_pos;
 
-//layouts
-layout(location = 0) out vec4 frag_color;
+
 
 //uniforms======================================
 
@@ -85,7 +85,7 @@ vec4 CalDirectionalLight(DirectionalLight light, Material material, vec3 normal,
 	float specular_factor = max(dot(V, R), 0.f);
 	if(type==Standard_mat)
 	{
-		vec4 ambient = vec4(light.LightColor * light.ambient_intensity*material.standard.ambient, 1.0f);
+		vec4 ambient = vec4(light.LightColor * light.ambient_intensity * material.standard.ambient , 1.0f);
 		vec4 diffuse = vec4(light.LightColor *light.DiffuseIntensity * diffuse_factor* material.standard.diffuse,1.0f);
 		specular_factor = pow(specular_factor,material.standard.shininess);
 		vec4 specular = vec4(light.LightColor * specular_factor*material.standard.specular, 1.0f);
@@ -106,13 +106,13 @@ vec4 CalDirectionalLight(DirectionalLight light, Material material, vec3 normal,
 vec4 CalPointLight(PointLight light, Material material, vec3 normal, vec2 texturecoords)
 {
 	vec3 lightDir = normalize(light.PointLightPosition - frag_pos);
-	float diffuse_factor = max(dot(normalize(normal), lightDir), 0.f);
 	vec3 V = normalize(u_cameraPos - frag_pos);
-	vec3 R = reflect(-lightDir, normalize(normal));
+	vec3 R = reflect(-lightDir, normal);
 	float distance = length(light.PointLightPosition-frag_pos);
 	float attenuation = 1.f / (light.quadratic * distance * distance + light.linearv * distance + light.constant);
 	if(type==Standard_mat)
 	{
+		float diffuse_factor = max(dot(normal, lightDir),0.f);
 		vec3 ambient = light.LightColor * light.ambient_intensity *material.standard.ambient;
 		vec3 diffuse = light.LightColor * diffuse_factor * light.DiffuseIntensity *material.standard.diffuse;
 		float specular_factor = pow(max(dot(V, R), 0.f),material.standard.shininess);
@@ -126,6 +126,8 @@ vec4 CalPointLight(PointLight light, Material material, vec3 normal, vec2 textur
 	}
 	else
 	{
+		
+		float diffuse_factor = max(dot(normalize(normal), lightDir),0.f);
 		vec3 ambient = light.LightColor * light.ambient_intensity * vec3(texture(material.base.diffuse, texturecoords));
 		vec3 diffuse = light.LightColor * diffuse_factor * light.DiffuseIntensity * vec3(texture(material.base.diffuse, texturecoords));
 		float specular_factor = pow(max(dot(V, R), 0.f),material.base.specular_strength);
@@ -145,26 +147,28 @@ vec4 CalSpotLight(SpotLight light, Material material, vec3 normal, vec2 texturec
 	float theta = dot(lightDir,normalize(-light.direction));
 	float epsilon = light.cutoff-light.OuterCutOff;
 	float intensity =clamp((theta-light.OuterCutOff)/epsilon,0.f,1.f);
-	float diffuse_factor = max(dot(normalize(normal), lightDir), 0.f);
 	vec3 V = normalize(u_cameraPos - frag_pos);
 	vec3 R = reflect(-lightDir, normalize(normal));
 	float distance = length(light.SpotLightPosition-frag_pos);
 	float attenuation = 1.f / (light.base.quadratic * distance * distance + light.base.linearv * distance + light.base.constant);
 	if(type==Standard_mat)
 	{
+		float diffuse_factor = max(dot(normal, lightDir), 0.f);
 		vec3 ambient = light.base.LightColor * light.base.ambient_intensity * material.standard.ambient;
 		vec3 diffuse = light.base.LightColor * diffuse_factor * light.base.DiffuseIntensity *material.standard.diffuse;
 		float specular_factor = pow(max(dot(V, R), 0.f),material.standard.shininess);
 		vec3 specular = (light.base.LightColor * specular_factor*material.standard.specular);
+
 		diffuse *=intensity;
 		specular*=intensity;
 		ambient *= attenuation;
 		specular *= attenuation;
 		diffuse *= attenuation;
-		return vec4(ambient+diffuse+specular,1.0f);
+		return vec4(max(ambient+diffuse+specular,ambient),1.0f);
 	}
 	else
 	{
+		float diffuse_factor = max(dot(normalize(normal), lightDir), 0.f);
 		vec3 ambient = light.base.LightColor * light.base.ambient_intensity * vec3(texture(material.base.diffuse, texturecoords));
 		vec3 diffuse = light.base.LightColor * diffuse_factor * light.base.DiffuseIntensity * vec3(texture(material.base.diffuse, texturecoords));
 		float specular_factor = pow(max(dot(V, R), 0.f),material.base.specular_strength);
@@ -183,17 +187,19 @@ vec4 CalSpotLight(SpotLight light, Material material, vec3 normal, vec2 texturec
 //main=======================
 void main()
 {
-
+	
+	vec4 result= vec4(0.f);
 	//output
-	vec4 result = CalDirectionalLight(u_directional_light, u_material, v_normal, v_texcoord)*u_Dir_intensity;
+	result = CalDirectionalLight(u_directional_light, u_material, v_normal, v_texcoord)*u_Dir_intensity;
 	for(int i=0;i<(u_no_point_lights);i++)
 	{
-		result+=CalPointLight(u_point_light[i],u_material,v_normal,v_texcoord);
+		result+= CalPointLight(u_point_light[i],u_material,v_normal,v_texcoord);
 	}
 	for(int i=0;i<(u_no_spot_lights);i++)
 	{
 		result+=CalSpotLight(u_spot_light[i],u_material,v_normal,v_texcoord);
 	}
-	frag_color = result;
+	
+	gl_FragColor =result;
 
 }

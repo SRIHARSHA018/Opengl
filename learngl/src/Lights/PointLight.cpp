@@ -31,7 +31,7 @@ void PointLight::CreatePointLights(int& count)
 	for (int i = 0; i < count; i++)
 	{
 
-		pointLights.push_back(PointLight(0.05f, 1.f, 1.f, 1.f, 1.0f));
+		pointLights.push_back(PointLight(0.1f, 1.f, 1.f, 1.f, 1.0f));
 		pointLights[i].SetAttenuationParameters(0.032f, 0.09f, 1.0f);
 		x_light_count+=1;		
 	}

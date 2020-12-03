@@ -49,7 +49,7 @@ int main()
 	Model model("resources/assests/Head.obj");
 
 	//lights=====================================================
-	DirectionalLight light(0.05f, 1.f, 1.f, 1.f,
+	DirectionalLight light(0.1f, 1.f, 1.f, 1.f,
 		3.f, glm::vec3(1.f, 1.f, 1.f));
 
 	PointLight pointlight;
@@ -71,7 +71,7 @@ int main()
 	//material
 	BasicMaterial cubeMaterial(diffuse.GetTextureSlot(), specular.GetTextureSlot(), 120.f);
 	BasicMaterial planeMaterial(checker_diffuse.GetTextureSlot(), checker_specular.GetTextureSlot(), 120.f);
-	//StandardMaterial planeMaterial(StandardMaterial::gold);
+	StandardMaterial goldMaterial(StandardMaterial::gold);
 	
 
 	//loop to progress
@@ -97,6 +97,8 @@ int main()
 		planeMaterial.AssignMaterial(&ShaderProgram);
 		plane.DrawMesh(&ShaderProgram);
 		ShaderProgram.SetUniformMatrix4f("u_model", 1, plane.GetModelMatrix());
+
+		goldMaterial.AssignMaterial(&ShaderProgram);
 		model.DrawModel(&ShaderProgram);
 
 

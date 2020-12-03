@@ -78,7 +78,7 @@ void  Mesh::DrawMesh(SJ_engine::SJ_shader::shader* obj)
 {
 	obj->UseShaderProgram();
 	glBindVertexArray(this->x_vao);
-	glDrawElements(GL_TRIANGLES, x_indices.size(), GL_UNSIGNED_INT,(void*)0);
+	glDrawElements(GL_TRIANGLES,(int) x_indices.size(), GL_UNSIGNED_INT,(const void*)0);
 }
 
 void Mesh::CreateCube()
@@ -92,44 +92,43 @@ void Mesh::CreateCube()
 		glm::vec3(-0.5f, -0.5f, -0.5f),		glm::vec2(0.f,0.f),		glm::vec3(0.0f,  0.0f, -1.0f),//0
 		glm::vec3(0.5f, -0.5f, -0.5f),		glm::vec2(1.0f,0.f),	glm::vec3(0.0f,  0.0f, -1.0f),//1
 		glm::vec3(0.5f,  0.5f, -0.5f),		glm::vec2(1.0f,1.0f),	glm::vec3(0.0f,  0.0f, -1.0f),//2
-		//glm::vec3(0.5f,  0.5f, -0.5f),		glm::vec2(1.0f,1.0f),	glm::vec3(0.0f,  0.0f, -1.0f),
 		glm::vec3(-0.5f,  0.5f, -0.5f),		glm::vec2(0.f,1.0f),    glm::vec3(0.0f,  0.0f, -1.0f),//3
-		//glm::vec3(-0.5f, -0.5f, -0.5f),		glm::vec2(0.f,0.f),		glm::vec3(0.0f,  0.0f, -1.0f),
+		
 		//front face
 		glm::vec3(-0.5f, -0.5f, 0.5f),		glm::vec2(0.f,0.f),		glm::vec3(0.0f,  0.0f, 1.0f),//4
 		glm::vec3(0.5f, -0.5f, 0.5f),		glm::vec2(1.0f,0.f),	glm::vec3(0.0f,  0.0f, 1.0f),//5
 		glm::vec3(0.5f,  0.5f, 0.5f),		glm::vec2(1.f,1.f),		glm::vec3(0.0f,  0.0f, 1.0f),//6
-		//glm::vec3(0.5f,  0.5f, 0.5f),		glm::vec2(1.f,1.f),		glm::vec3(0.0f,  0.0f, 1.0f),
+		
 		glm::vec3(-0.5f,  0.5f, 0.5f),		glm::vec2(0.f,1.f),		glm::vec3(0.0f,  0.0f, 1.0f),//7
-		//glm::vec3(-0.5f, -0.5f, 0.5f),		glm::vec2(0.f,0.f),		glm::vec3(0.0f,  0.0f, 1.0f),
+		
 		//left face									 
 		glm::vec3(-0.5f,  0.5f,  0.5f),		glm::vec2(0.f,0.f),		glm::vec3(-1.0f,  0.0f,  0.0f),//8
 		glm::vec3(-0.5f,  0.5f, -0.5f),		glm::vec2(1.0f,0.f),	glm::vec3(-1.0f,  0.0f,  0.0f),//9
 		glm::vec3(-0.5f, -0.5f, -0.5f),		glm::vec2(1.f,1.f),		glm::vec3(-1.0f,  0.0f,  0.0f),//10
-		//glm::vec3(-0.5f, -0.5f, -0.5f),		glm::vec2(1.f,1.f),		glm::vec3(-1.0f,  0.0f,  0.0f),
+		
 		glm::vec3(-0.5f, -0.5f,  0.5f),		glm::vec2(0.f,1.f),		glm::vec3(-1.0f,  0.0f,  0.0f),//11
-		//glm::vec3(-0.5f,  0.5f,  0.5f),		glm::vec2(0.f,0.f),		glm::vec3(-1.0f,  0.0f,  0.0f),
+		
 		//RIGHT FACE									 
 		glm::vec3(  0.5f,  0.5f,  0.5f),	glm::vec2(0.f,0.f),     glm::vec3(1.0f,  0.0f,  0.0f),//12
 		glm::vec3(  0.5f,  0.5f, -0.5f),	glm::vec2(1.0f,0.f),    glm::vec3(1.0f,  0.0f,  0.0f),//13
 		glm::vec3(  0.5f, -0.5f, -0.5f),	glm::vec2(1.f,1.f),     glm::vec3(1.0f,  0.0f,  0.0f),//14
-		//glm::vec3(  0.5f, -0.5f, -0.5f),	glm::vec2(1.f,1.f),     glm::vec3(1.0f,  0.0f,  0.0f),
+		
 		glm::vec3(  0.5f, -0.5f,  0.5f),	glm::vec2(0.f,1.f),     glm::vec3(1.0f,  0.0f,  0.0f),//15
-		//glm::vec3(  0.5f,  0.5f,  0.5f),	glm::vec2(0.f,0.f),     glm::vec3(1.0f,  0.0f,  0.0f),
+		
 		//bottom face								 
 		glm::vec3(-0.5f, -0.5f, -0.5f),		glm::vec2(0.f,0.f),		 glm::vec3(0.0f, -1.0f,  0.0f),//16
 		glm::vec3(0.5f, -0.5f, -0.5f),		glm::vec2(1.0f,0.f),	 glm::vec3(0.0f, -1.0f,  0.0f),//17
 		glm::vec3(0.5f, -0.5f,  0.5f),		glm::vec2(1.f,1.f),		 glm::vec3(0.0f, -1.0f,  0.0f),//18
-		//glm::vec3(0.5f, -0.5f,  0.5f),		glm::vec2(1.f,1.f),		 glm::vec3(0.0f, -1.0f,  0.0f),
+		
 		glm::vec3(-0.5f, -0.5f,  0.5f),		glm::vec2(0.f,1.f),		 glm::vec3(0.0f, -1.0f,  0.0f),//19
-		//glm::vec3(-0.5f, -0.5f, -0.5f),		glm::vec2(0.f,0.f),		 glm::vec3(0.0f, -1.0f,  0.0f),
+		
 		//top face											 
 		glm::vec3(-0.5f,  0.5f, -0.5f),		glm::vec2(0.f,0.f),		glm::vec3(0.0f,  1.0f,  0.0f),//20
 		glm::vec3(0.5f,  0.5f, -0.5f),		glm::vec2(1.0f,0.f),	glm::vec3(0.0f,  1.0f,  0.0f),//21
 		glm::vec3(0.5f,  0.5f,  0.5f),		glm::vec2(1.f,1.f),		glm::vec3(0.0f,  1.0f,  0.0f),//22
-		//glm::vec3(0.5f,  0.5f,  0.5f),		glm::vec2(1.f,1.f),		glm::vec3(0.0f,  1.0f,  0.0f),
+		
 		glm::vec3(-0.5f,  0.5f,  0.5f),		glm::vec2(0.f,1.f),		glm::vec3(0.0f,  1.0f,  0.0f)//23
-		//glm::vec3(-0.5f,  0.5f, -0.5f),		glm::vec2(0.f,0.f),		glm::vec3(0.0f,  1.0f,  0.0f)
+		
 	};
 	
 	for (unsigned int i = 0; i < sizeof(cubeVertices) / sizeof(Vertex); i++)

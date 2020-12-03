@@ -120,12 +120,14 @@ namespace SJ_engine {
 			std::cout << "Failed to intialize Glew" << std::endl;
 		}
 		//Render settings for openGL 4.6 Culling and blend func
+
 		glEnable(GL_DEPTH_TEST);
 		//glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CCW);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		//Resize callback
 		glfwSetWindowSizeCallback(x_window, ResizeWindow);
 		//callback for input keys
@@ -143,7 +145,7 @@ namespace SJ_engine {
 	//window poll events
 	void Cl_window::Update()
 	{
-
+		glfwSwapInterval(1);
 		glfwSwapBuffers(x_window);
 		glfwPollEvents();
 	}

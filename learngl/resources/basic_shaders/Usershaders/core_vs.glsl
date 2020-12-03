@@ -19,8 +19,8 @@ out vec3 frag_pos;
 void main()
 {
 	//camera pos
+	gl_Position = u_Projection*u_View*u_model*vec4(vertex_position,1.f);
 	frag_pos = vec4(u_model *vec4(vertex_position,1.f)).xyz;
-	gl_Position = u_Projection*	u_View*u_model*vec4(vertex_position,1.f);
 	//texture coords
 	v_texcoord = vertex_texcoord;
 	//normals
