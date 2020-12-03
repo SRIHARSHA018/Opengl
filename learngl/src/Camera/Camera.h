@@ -34,10 +34,10 @@ namespace SJ_engine {
 			void keycontrol(Cl_window* obj, SJ_shader::shader* shaderObj);
 			float get_deltaTime();
 			void update();
-			glm::mat4 getViewMatrix() { return x_ViewMatrix; }
-			glm::mat4 getModelMatrix() { return x_ModelMatrix; }
-			glm::vec3 getCamPosition() { return x_camposition; }
-			glm::vec3 getcamPos() { return x_camposition; }
+			glm::mat4 getViewMatrix()const { return x_ViewMatrix; }
+			glm::mat4 getModelMatrix()const { return x_ModelMatrix; }
+			glm::vec3 getCamPosition() const { return x_camposition; }
+			glm::vec3 getcamPos()const { return x_camposition; }
 			
 		};
 

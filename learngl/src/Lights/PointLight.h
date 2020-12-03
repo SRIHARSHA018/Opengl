@@ -15,14 +15,14 @@ public:
 	PointLight();
 	PointLight(float ambientintensity, float red, float green, float blue,
 		float diffintensity);
-	glm::vec3 GetPointLightPos() { return x_Position; }
+	glm::vec3 GetPointLightPos()const { return x_Position; }
 	void SetPointLightPos(const glm::vec3& position) { x_Position = position; }
 	void SetAttenuationParameters(float a, float b, float c);
-	float GetAttenuationConstant() { return x_constant; }
-	float GetAttenuationLinear() { return x_linear; }
-	float GetAttenuationQuadratic() { return x_quadratic; }
+	float GetAttenuationConstant()const { return x_constant; }
+	float GetAttenuationLinear()const { return x_linear; }
+	float GetAttenuationQuadratic()const { return x_quadratic; }
 	void CreatePointLights(int& count);
-	int GetLightsCount() { return x_light_count; }
+	int GetLightsCount()const { return x_light_count; }
 	void SetPointLightUIcontroller( std::vector<glm::vec3> &color, std::vector<glm::vec3>&position,int& count);
 };
 

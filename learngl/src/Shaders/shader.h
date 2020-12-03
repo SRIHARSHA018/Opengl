@@ -11,8 +11,7 @@
 #include"src/Lights/DirectionalLight.h"
 #include"src/Lights/PointLight.h"
 #include"src/Lights/SpotLight.h"
-#include"src/VertexArrays_Buffers/VertexBuffer.h"
-#include"src/VertexArrays_Buffers/IndexBuffer.h"
+#include"src/MeshModel/VertexIndexBuffers/Buffers.h"
 
 //CLASS for shader
 namespace SJ_engine {
@@ -32,7 +31,7 @@ namespace SJ_engine {
 			~shader();
 			void shaderdestroy();
 			void UseShaderProgram();
-			unsigned int Get_shader_program() { return x_Shader_Program_ID; }
+			unsigned int Get_shader_program()const { return x_Shader_Program_ID; }
 
 			//uniforms abstract
 			unsigned int GetUniformLocation(const std::string& uniformname);
@@ -45,15 +44,5 @@ namespace SJ_engine {
 			void SetSpotLightUniforms(std::vector<SpotLight>& lightObj, int count);
 		};
 
-		template<typename C>
-		void SetLightObject(C* light, SJ_engine::SJ_shader::shader* obj, glm::vec3& position)
-		{
-			glm::mat4 Lightmodel = glm::mat4(1.0f);
-			Lightmodel = glm::translate(position);
-			Lightmodel = glm::scale(Lightmodel, glm::vec3(0.2f));
-			obj->SetUniformMatrix4f("u_model", 1, Lightmodel);
-			obj->SetUniform3fv("u_lightColor", light->GetLightColor());
-			obj->SetUniform1f("u_intensity", light->GetDiffuseIntensity());
-		}
 	}
 }

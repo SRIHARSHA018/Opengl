@@ -1,5 +1,10 @@
 #include "BasicMaterial.h"
 
+BasicMaterial::BasicMaterial()
+{
+	this->Materialtype = 1;
+}
+
 BasicMaterial::BasicMaterial(unsigned int diffuse, unsigned int specular, float specular_power)
 {
 	this->x_diffuse_tex = diffuse;
@@ -15,4 +20,7 @@ void BasicMaterial::AssignMaterial(SJ_engine::SJ_shader::shader* obj)
 	obj->SetUniform1i("u_material.base.specular", x_specular_tex);
 	obj->SetUniform1f("u_material.base.specular_strength", x_specular_power);
 }
+
+
+
 

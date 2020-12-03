@@ -13,7 +13,7 @@ namespace SJ_engine {
 		~Cl_window();
 		bool Init();
 		const bool closed();
-		GLFWwindow* Get_Window() { return x_window; }
+		GLFWwindow* Get_Window()const { return x_window; }
 		void Update();
 		void clear(const glm::vec3 &bg_color);
 		bool ColorShift = true;

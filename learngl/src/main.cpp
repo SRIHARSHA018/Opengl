@@ -1,12 +1,12 @@
 //includes
-#include"graphics/Cl_window.h"
-#include"src/textures/texture.h"
 #include"Camera/Camera.h"
-#include"src/VertexArrays_Buffers/Mesh.h"
-#include"resources/vendor/ImGui/imgui_impl_glfw.h"
-#include "resources/vendor/ImGui/imgui_impl_opengl3.h"
+#include"src/MeshModel/Model.h"
+#include"Materials/textures/texture.h"
 #include"Materials/BasicMaterial.h"
 #include"Materials/StandardMaterial.h"
+#include"resources/vendor/ImGui/imgui_impl_glfw.h"
+#include"resources/vendor/ImGui/imgui_impl_opengl3.h"
+
 //Main function
 int main()
 {
@@ -23,14 +23,13 @@ int main()
 	ImGui::StyleColorsDark();
 
 	//imgui contents==============================================
-	glm::vec3 position = glm::vec3(1.0f);
 	float directionalLightIntensity = 1.f;
 	glm::vec3 LightDirection(1.0f, 0.f, 0.f);
 	glm::vec3 bgColor(0.f, 0.f, 0.f);
 	int PointLightCount = 1;
 	std::vector<glm::vec3> PointLightColor(PointLightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> PointLightPosition(PointLightCount, { 0.f,0.f,0.f });
-	//spotlights imgui
+		//spotlights Imgui
 	int SpotLightCount = 1;
 	std::vector<glm::vec3> SpotLightColor(SpotLightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> SpotLightPosition(SpotLightCount, { 0.f,0.f,0.f });
@@ -42,11 +41,12 @@ int main()
 	SJ_engine::SJ_camera::Camera camera(glm::vec3(0.f, 0.f, 5.f), 2.f, 0.2f, -90.f, 0.f);
 
 	//meshes
-	SJ_engine::SJ_shader::shader ShaderProgram("resources/basic_shaders/core_vs.glsl", "resources/basic_shaders/core_fs.glsl");
+	SJ_engine::SJ_shader::shader ShaderProgram("resources/basic_shaders/Usershaders/core_vs.glsl", 
+		"resources/basic_shaders/Usershaders/core_fs.glsl");
 
-
-	Mesh cube(0);
-	Mesh plane(1);
+	Mesh cube(Mesh::Cube);
+	Mesh plane(Mesh::Plane);
+	Model model("resources/assests/Head.obj");
 
 	//lights=====================================================
 	DirectionalLight light(0.05f, 1.f, 1.f, 1.f,
@@ -59,11 +59,10 @@ int main()
 	spotlight.CreateSpotLights(SpotLightCount);
 
 	//Textures
-	Texture diffuse("src/textures/container2.png", 0);
-	Texture specular("src/textures/container2_specular.png", 1);
-	Texture checker_diffuse("src/textures/checkerboard.jpg", 2);
-	Texture checker_specular("src/textures/checkerboard_specular.jpg", 3);
-
+	Texture diffuse("src/Materials/textures/container2.png", 0);
+	Texture specular("src/Materials/textures/container2_specular.png", 1);
+	Texture checker_diffuse("src/Materials/textures/checkerboard.jpg", 2);
+	Texture checker_specular("src/Materials/textures/checkerboard_specular.jpg", 3);
 	diffuse.Bind();
 	specular.Bind();
 	checker_diffuse.Bind();
@@ -71,8 +70,9 @@ int main()
 
 	//material
 	BasicMaterial cubeMaterial(diffuse.GetTextureSlot(), specular.GetTextureSlot(), 120.f);
-	//BasicMaterial planeMaterial(checker_diffuse.GetTextureSlot(), checker_specular.GetTextureSlot(), 120.f);
-	StandardMaterial planeMaterial(StandardMaterial::gold);
+	BasicMaterial planeMaterial(checker_diffuse.GetTextureSlot(), checker_specular.GetTextureSlot(), 120.f);
+	//StandardMaterial planeMaterial(StandardMaterial::gold);
+	
 
 	//loop to progress
 	while (!Cl_window.closed())
@@ -87,14 +87,17 @@ int main()
 		camera.keycontrol(&Cl_window, &ShaderProgram);
 		//perspective
 		glm::mat4 proj = glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
+
 		//CubeMesh
 		cubeMaterial.AssignMaterial(&ShaderProgram);
 		cube.DrawMesh(&ShaderProgram);
 		ShaderProgram.SetUniformMatrix4f("u_model", 1, cube.GetModelMatrix());
 
+		//plane mesh
 		planeMaterial.AssignMaterial(&ShaderProgram);
 		plane.DrawMesh(&ShaderProgram);
 		ShaderProgram.SetUniformMatrix4f("u_model", 1, plane.GetModelMatrix());
+		model.DrawModel(&ShaderProgram);
 
 
 		//Camera

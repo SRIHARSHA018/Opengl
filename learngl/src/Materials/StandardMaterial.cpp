@@ -10,9 +10,6 @@ StandardMaterial::StandardMaterial(const glm::vec3 ambient, const glm::vec3 diff
 	this->Materialtype = 0;
 }
 
-
-
-
 void StandardMaterial::AssignMaterial(SJ_engine::SJ_shader::shader* obj)
 {
 	obj->SetUniform3fv("u_material.standard.ambient", x_ambient);

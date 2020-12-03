@@ -24,9 +24,6 @@
     <ClInclude Include="src\Shaders\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\textures\texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resources\vendor\STB_image\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -66,25 +63,28 @@
     <ClInclude Include="src\Lights\PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\VertexArrays_Buffers\VertexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Materials\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Lights\SpotLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\VertexArrays_Buffers\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\VertexArrays_Buffers\IndexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Materials\StandardMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Materials\BasicMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MeshModel\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Materials\textures\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MeshModel\VertexIndexBuffers\Buffers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MeshModel\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -96,9 +96,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Shaders\shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\textures\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="resources\vendor\STB_image\stb_image.cpp">
@@ -134,22 +131,22 @@
     <ClCompile Include="src\Lights\PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\VertexArrays_Buffers\VertexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Lights\SpotLight .cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexArrays_Buffers\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexArrays_Buffers\IndexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Materials\StandardMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Materials\BasicMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshModel\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lights\SpotLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Materials\textures\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshModel\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -157,22 +154,23 @@
     <None Include="glfw3.dll" />
     <None Include="glew32.dll" />
     <None Include="imgui.ini" />
-    <None Include="resources\basic_shaders\core_fs.glsl" />
-    <None Include="resources\basic_shaders\core_vs.glsl" />
     <None Include="resources\basic_shaders\lightsources\f_sourceObject.glsl" />
     <None Include="resources\basic_shaders\lightsources\v_sourceObject.glsl" />
+    <None Include="resources\basic_shaders\Usershaders\core_fs.glsl" />
+    <None Include="resources\basic_shaders\Usershaders\core_vs.glsl" />
+    <None Include="assimp-vc142-mtd.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\textures\container2.png">
+    <Image Include="src\Materials\textures\checkerboard.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="src\textures\container2_specular.png">
+    <Image Include="src\Materials\textures\checkerboard_specular.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="src\textures\checkerboard.jpg">
+    <Image Include="src\Materials\textures\container2.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="src\textures\checkerboard_specular.jpg">
+    <Image Include="src\Materials\textures\container2_specular.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

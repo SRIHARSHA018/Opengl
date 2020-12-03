@@ -27,9 +27,7 @@ void PointLight::SetAttenuationParameters(float a, float b, float c)
 }
 
 void PointLight::CreatePointLights(int& count)
-{
-	
-	
+{	
 	for (int i = 0; i < count; i++)
 	{
 
@@ -37,8 +35,6 @@ void PointLight::CreatePointLights(int& count)
 		pointLights[i].SetAttenuationParameters(0.032f, 0.09f, 1.0f);
 		x_light_count+=1;		
 	}
-	
-
 	
 }
 

@@ -10,7 +10,7 @@ private:
 
 
 public:
-    glm::vec3 GetLightDirection() { return x_LightDirection; }
+    glm::vec3 GetLightDirection()const { return x_LightDirection; }
     DirectionalLight();
     ~DirectionalLight(){}
     DirectionalLight(float ambientintensity, float red, float green, float blue,
