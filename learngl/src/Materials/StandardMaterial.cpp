@@ -10,14 +10,6 @@ StandardMaterial::StandardMaterial(const glm::vec3 ambient, const glm::vec3 diff
 	this->Materialtype = 0;
 }
 
-void StandardMaterial::AssignMaterial(SJ_engine::SJ_shader::shader* obj)
-{
-	obj->SetUniform3fv("u_material.standard.ambient", x_ambient);
-	obj->SetUniform3fv("u_material.standard.diffuse", x_diffuse);
-	obj->SetUniform3fv("u_material.standard.specular", x_specular);
-	obj->SetUniform1f("u_material.standard.shininess", x_shininess*128.f);
-	obj->SetUniform1i("type", Materialtype);
-}
 
 StandardMaterial::StandardMaterial(Materials name)
 {

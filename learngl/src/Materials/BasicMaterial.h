@@ -1,6 +1,6 @@
 #pragma once
 #include "Material.h"
-#include <unordered_map>
+
 class BasicMaterial :public Material
 {
 private:
@@ -13,7 +13,10 @@ public:
 
 	BasicMaterial();
 	BasicMaterial(unsigned int diffuse,unsigned int specular, float specular_power);
-	void AssignMaterial(SJ_engine::SJ_shader::shader* obj) override;
 	~BasicMaterial(){}
+	unsigned int GetDiffuseTexture() { return x_diffuse_tex; }
+	unsigned int GetSpecularTexture() { return x_specular_tex; }
+	float GetspecularPower() { return x_specular_power; }
+	int GetMaterialType(){ return this->Materialtype; }
 };
 

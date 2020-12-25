@@ -1,13 +1,14 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,std::vector<texture> textures)
 {
 	x_InitModelMatrix();
 	this->x_vertices = vertices;
 	this->x_indices = indices;
-	//this->x_textures = textures;
+	this->x_textures = textures;
 	x_setup_mesh();
 }
+
 Mesh::Mesh(PrimitiveType primitive)
 {
 	x_InitModelMatrix();
@@ -26,6 +27,9 @@ Mesh::Mesh(PrimitiveType primitive)
 
 Mesh::~Mesh()
 {
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	
 }
 
 void Mesh::x_EnableVertexAttrib()
@@ -45,7 +49,6 @@ void Mesh::x_EnableVertexAttrib()
 
 void Mesh::x_setup_mesh()
 {
-
 
 	glGenBuffers(1, &x_vbo);
 	glCreateVertexArrays(1, &x_vao);
@@ -74,11 +77,41 @@ void Mesh::x_InitModelMatrix()
 
 
 
-void  Mesh::DrawMesh(SJ_engine::SJ_shader::shader* obj)
+void Mesh::DrawMesh(SJ_engine::SJ_shader::shader* obj, BasicMaterial* matobj, StandardMaterial* standMatobj)
 {
 	obj->UseShaderProgram();
+	if (matobj != nullptr)
+	{
+		obj->SetUniform1i("type", matobj->GetMaterialType());
+		obj->SetUniform1i("u_material.base.diffuse", matobj->GetDiffuseTexture());
+		obj->SetUniform1i("u_material.base.specular", matobj->GetSpecularTexture());
+		obj->SetUniform1f("u_material.base.specular_strength", matobj->GetspecularPower());
+	}
+	else if (standMatobj != nullptr)
+	{
+		obj->SetUniform3fv("u_material.standard.ambient", standMatobj->GetAmbient());
+		obj->SetUniform3fv("u_material.standard.diffuse", standMatobj->GetDiffuse());
+		obj->SetUniform3fv("u_material.standard.specular", standMatobj->GetSpecular());
+		obj->SetUniform1f("u_material.standard.shininess", standMatobj->GetSpecularPower() * 128.f);
+		obj->SetUniform1i("type", standMatobj->GetMaterialType());
+	}
+	else
+	{
+		for (unsigned int i = 0; i < x_textures.size(); i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + i); 
+			std::string name = x_textures[i].type;
+			if (name == "u_material.base.diffuse")
+				obj->SetUniform1i(name, i);
+			else if (name == "u_material.base.specular")
+				obj->SetUniform1i(name, i);
+			glBindTexture(GL_TEXTURE_2D, x_textures[i].id);
+		}
+		glActiveTexture(GL_TEXTURE0);
+	}
+	obj->SetUniformMatrix4f("u_model", 1, this->GetModelMatrix());
 	glBindVertexArray(this->x_vao);
-	glDrawElements(GL_TRIANGLES,(int) x_indices.size(), GL_UNSIGNED_INT,(const void*)0);
+	glDrawElements(GL_TRIANGLES, (int)x_indices.size(), GL_UNSIGNED_INT, (const void*)0);
 }
 
 void Mesh::CreateCube()
@@ -135,6 +168,7 @@ void Mesh::CreateCube()
 	{
 		x_vertices.push_back(cubeVertices[i]);
 	}
+
 	unsigned int indices[] = {
 		0,1,2,
 		2,3,0,
@@ -149,6 +183,7 @@ void Mesh::CreateCube()
 		20,21,22,
 		22,23,20
 	};
+
 	for (unsigned int i = 0; i < sizeof(indices) / sizeof(indices[0]); i++)
 	{
 		x_indices.push_back(indices[i]);
@@ -166,8 +201,6 @@ void Mesh::CreatePlane()
 		glm::vec3( 10.f,-1.f,-10.f),      glm::vec2(1.f,0.f),   glm::vec3(0.f,1.f,0.f),//1
 		glm::vec3( 10.f,-1.f,10.f),       glm::vec2(1.f,1.f),   glm::vec3(0.f,1.f,0.f),//2
 		 //right triangle
-		//glm::vec3(-10.f,-1.f,-10.f),      glm::vec2(0.f,0.f),   glm::vec3(0.f,1.f,0.f),
-		//glm::vec3( 10.f,-1.f,10.f),       glm::vec2(1.f,1.f),   glm::vec3(0.f,1.f,0.f),
 		glm::vec3( -10.f,-1.f,10.f),      glm::vec2(0.f,1.f),   glm::vec3(0.f,1.f,0.f),//3
 	};
 	unsigned int indices[] =
@@ -197,8 +230,3 @@ void Mesh::SetTransformations(const glm::vec3& position, const glm::vec3& rotati
 	x_ModelMatrix = glm::scale(x_ModelMatrix, scale);
 }
 
-void Mesh::BindMesh()
-{
-	glBindBuffer(GL_ARRAY_BUFFER, x_vbo);
-	glBindVertexArray(x_vao);
-}

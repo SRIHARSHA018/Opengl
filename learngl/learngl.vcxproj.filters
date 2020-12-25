@@ -87,6 +87,9 @@
     <ClInclude Include="src\MeshModel\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UI\Sj_UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\Cl_window.cpp">
@@ -147,6 +150,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\MeshModel\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Sj_UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

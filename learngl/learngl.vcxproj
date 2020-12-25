@@ -108,6 +108,7 @@
     <ClInclude Include="src\graphics\Cl_window.h" />
     <ClInclude Include="resources\vendor\STB_image\stb_image.h" />
     <ClInclude Include="src\macros.h" />
+    <ClInclude Include="UI\Sj_UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\MeshModel\Model.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="src\Materials\textures\texture.cpp" />
     <ClCompile Include="src\graphics\Cl_window.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="UI\Sj_UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc142-mtd.dll" />

@@ -1,13 +1,9 @@
 //includes
+#include"UI/Sj_UI.h"
 #include"Camera/Camera.h"
 #include"src/MeshModel/Model.h"
-#include"Materials/textures/texture.h"
-#include"Materials/BasicMaterial.h"
-#include"Materials/StandardMaterial.h"
-#include"resources/vendor/ImGui/imgui_impl_glfw.h"
-#include"resources/vendor/ImGui/imgui_impl_opengl3.h"
-
 //Main function
+
 int main()
 {
 	SJ_engine::Cl_window Cl_window(1080, 1080, "SJ_engine");
@@ -17,10 +13,8 @@ int main()
 
 	//imGui
 	// Setup Platform/Renderer bindings
-	ImGui::CreateContext();
-	ImGui_ImplGlfw_InitForOpenGL(Cl_window.Get_Window(), true);
-	ImGui_ImplOpenGL3_Init("#version 460");
-	ImGui::StyleColorsDark();
+	Sj_UI UI(&Cl_window, "460");
+
 
 	//imgui contents==============================================
 	float directionalLightIntensity = 1.f;
@@ -29,6 +23,7 @@ int main()
 	int PointLightCount = 1;
 	std::vector<glm::vec3> PointLightColor(PointLightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> PointLightPosition(PointLightCount, { 0.f,0.f,0.f });
+
 		//spotlights Imgui
 	int SpotLightCount = 1;
 	std::vector<glm::vec3> SpotLightColor(SpotLightCount, { 1.f,1.f,1.f });
@@ -72,7 +67,7 @@ int main()
 	BasicMaterial cubeMaterial(diffuse.GetTextureSlot(), specular.GetTextureSlot(), 120.f);
 	BasicMaterial planeMaterial(checker_diffuse.GetTextureSlot(), checker_specular.GetTextureSlot(), 120.f);
 	StandardMaterial goldMaterial(StandardMaterial::gold);
-	
+	//StandardMaterial TreeMaterial(StandardMaterial::silver);
 
 	//loop to progress
 	while (!Cl_window.closed())
@@ -83,22 +78,21 @@ int main()
 
 		Cl_window.clear(bgColor);
 
+		glm::mat4 proj = glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
+		//camera controls
 		camera.update();
 		camera.keycontrol(&Cl_window, &ShaderProgram);
+		
 		//perspective
-		glm::mat4 proj = glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 
 		//CubeMesh
-		cubeMaterial.AssignMaterial(&ShaderProgram);
-		cube.DrawMesh(&ShaderProgram);
-		ShaderProgram.SetUniformMatrix4f("u_model", 1, cube.GetModelMatrix());
+		cube.DrawMesh(&ShaderProgram,&cubeMaterial,nullptr);
+
 
 		//plane mesh
-		planeMaterial.AssignMaterial(&ShaderProgram);
-		plane.DrawMesh(&ShaderProgram);
-		ShaderProgram.SetUniformMatrix4f("u_model", 1, plane.GetModelMatrix());
+		plane.DrawMesh(&ShaderProgram,&planeMaterial,nullptr);
 
-		goldMaterial.AssignMaterial(&ShaderProgram);
+		//imported model
 		model.DrawModel(&ShaderProgram);
 
 

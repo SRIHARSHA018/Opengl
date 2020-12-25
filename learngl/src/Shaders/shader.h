@@ -12,6 +12,9 @@
 #include"src/Lights/PointLight.h"
 #include"src/Lights/SpotLight.h"
 #include"src/MeshModel/VertexIndexBuffers/Buffers.h"
+#include"src/Materials/BasicMaterial.h"
+#include"src/Materials/StandardMaterial.h"
+#include"src/Materials/textures/texture.h"
 
 //CLASS for shader
 namespace SJ_engine {
