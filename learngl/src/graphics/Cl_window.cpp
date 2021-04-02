@@ -36,6 +36,8 @@ namespace SJ_engine {
 			}
 	}
 
+
+
 	float Cl_window::GetAspectRatio()
 	{
 		glfwGetFramebufferSize(x_window, &ScreenWidth, &ScreenHeight);
@@ -130,6 +132,7 @@ namespace SJ_engine {
 
 		//Resize callback
 		glfwSetWindowSizeCallback(x_window, ResizeWindow);
+
 		//callback for input keys
 		glfwSetKeyCallback(x_window, InputKeys);
 		glfwSetMouseButtonCallback(x_window, Mouse_button_fun);
@@ -156,5 +159,4 @@ namespace SJ_engine {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(bg_color.x,bg_color.y,bg_color.z,1.f);
 	}
-
 }

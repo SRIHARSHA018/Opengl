@@ -22,7 +22,6 @@ private:
 public:
 	void DrawModel(SJ_engine::SJ_shader::shader* obj,BasicMaterial* baseMat=nullptr, StandardMaterial* standMat = nullptr);
 	Model(const std::string& path);
-	void MaterialDispatcher(std::vector<texture>* obj);
 	~Model(){}
 };
 

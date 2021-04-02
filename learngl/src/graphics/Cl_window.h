@@ -3,9 +3,12 @@
 #include<GLFW/glfw3.h>
 #include<GLM/glm.hpp>
 #include<iostream>
+
 //global variables
 //CLASS for a Window
+
 namespace SJ_engine {
+	
 	class Cl_window 
 	{
 	public:
@@ -35,4 +38,5 @@ namespace SJ_engine {
 		const char* x_Name;
 		GLFWwindow* x_window;
 	};
+	
 }

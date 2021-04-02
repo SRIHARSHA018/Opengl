@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc142-mtd.dll" />
+    <None Include="D:\assests\models\Dog.fbm\Dog.fbx" />
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
     <None Include="imgui.ini" />
@@ -144,6 +145,7 @@
     <None Include="resources\basic_shaders\lightsources\v_sourceObject.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="D:\assests\models\Dog.fbm\golden_retriever.jpg" />
     <Image Include="src\Materials\textures\checkerboard.jpg" />
     <Image Include="src\Materials\textures\checkerboard_specular.jpg" />
     <Image Include="src\Materials\textures\container2.png" />

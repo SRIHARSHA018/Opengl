@@ -2,19 +2,18 @@
 #include"UI/Sj_UI.h"
 #include"Camera/Camera.h"
 #include"src/MeshModel/Model.h"
-//Main function
 
+//Main function
 int main()
 {
-	SJ_engine::Cl_window Cl_window(1080, 1080, "SJ_engine");
-
+	SJ_engine::Cl_window Cl_window(1270, 720, "SJ_engine");
+	
 	//opengl info
 	std::cout << glGetString(GL_VERSION) << "\n";
 
 	//imGui
 	// Setup Platform/Renderer bindings
 	Sj_UI UI(&Cl_window, "460");
-
 
 	//imgui contents==============================================
 	float directionalLightIntensity = 1.f;
@@ -24,7 +23,7 @@ int main()
 	std::vector<glm::vec3> PointLightColor(PointLightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> PointLightPosition(PointLightCount, { 0.f,0.f,0.f });
 
-		//spotlights Imgui
+	//spotlights Imgui
 	int SpotLightCount = 1;
 	std::vector<glm::vec3> SpotLightColor(SpotLightCount, { 1.f,1.f,1.f });
 	std::vector<glm::vec3> SpotLightPosition(SpotLightCount, { 0.f,0.f,0.f });
@@ -33,7 +32,7 @@ int main()
 	std::vector<float> SpotLightOuterCutOff(SpotLightCount, glm::cos(glm::radians(17.5f)));
 
 	//camera
-	SJ_engine::SJ_camera::Camera camera(glm::vec3(0.f, 0.f, 5.f), 2.f, 0.2f, -90.f, 0.f);
+	SJ_engine::SJ_camera::Camera camera(glm::vec3(2.5f, 5.f, 5.f),2.f, 0.2f, -120.f, -30.f);
 
 	//meshes
 	SJ_engine::SJ_shader::shader ShaderProgram("resources/basic_shaders/Usershaders/core_vs.glsl", 
@@ -41,7 +40,7 @@ int main()
 
 	Mesh cube(Mesh::Cube);
 	Mesh plane(Mesh::Plane);
-	Model model("resources/assests/Head.obj");
+	Model model("resources/assests/Deer.obj");
 
 	//lights=====================================================
 	DirectionalLight light(0.1f, 1.f, 1.f, 1.f,
@@ -54,46 +53,42 @@ int main()
 	spotlight.CreateSpotLights(SpotLightCount);
 
 	//Textures
-	Texture diffuse("src/Materials/textures/container2.png", 0);
-	Texture specular("src/Materials/textures/container2_specular.png", 1);
-	Texture checker_diffuse("src/Materials/textures/checkerboard.jpg", 2);
-	Texture checker_specular("src/Materials/textures/checkerboard_specular.jpg", 3);
-	diffuse.Bind();
-	specular.Bind();
-	checker_diffuse.Bind();
-	checker_specular.Bind();
+	std::unique_ptr<Texture> diffuse(new Texture("src/Materials/textures/container2.png", 0));
+	std::unique_ptr<Texture> specular(new Texture ("src/Materials/textures/container2_specular.png", 1));
+	std::unique_ptr<Texture> checker_diffuse(new Texture ("src/Materials/textures/checkerboard.jpg", 2));
+	std::unique_ptr<Texture> checker_specular(new Texture ("src/Materials/textures/checkerboard_specular.jpg", 3));
+	diffuse->Bind();
+	specular->Bind();
+	checker_diffuse->Bind();
+	checker_specular->Bind();
 
-	//material
-	BasicMaterial cubeMaterial(diffuse.GetTextureSlot(), specular.GetTextureSlot(), 120.f);
-	BasicMaterial planeMaterial(checker_diffuse.GetTextureSlot(), checker_specular.GetTextureSlot(), 120.f);
+	
+	//Binding Textures to material
+	BasicMaterial cubeMaterial(diffuse->GetTextureSlot(), specular->GetTextureSlot(), 120.f);
+	BasicMaterial planeMaterial(checker_diffuse->GetTextureSlot(), checker_specular->GetTextureSlot(), 120.f);
 	StandardMaterial goldMaterial(StandardMaterial::gold);
-	//StandardMaterial TreeMaterial(StandardMaterial::silver);
 
 	//loop to progress
 	while (!Cl_window.closed())
 	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
+		UI.SwapFrames();
 		Cl_window.clear(bgColor);
 
-		glm::mat4 proj = glm::perspective(glm::radians(45.f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 		//camera controls
+		//perspective
+		glm::mat4 proj = glm::perspective(glm::radians(45.0f), Cl_window.GetAspectRatio(), 0.1f, 100.f);
 		camera.update();
 		camera.keycontrol(&Cl_window, &ShaderProgram);
-		
-		//perspective
+	
 
-		//CubeMesh
-		cube.DrawMesh(&ShaderProgram,&cubeMaterial,nullptr);
-
+		////CubeMesh
+		//cube.DrawMesh(&ShaderProgram,&cubeMaterial);
 
 		//plane mesh
-		plane.DrawMesh(&ShaderProgram,&planeMaterial,nullptr);
+		plane.DrawMesh(&ShaderProgram,&planeMaterial);
 
 		//imported model
-		model.DrawModel(&ShaderProgram);
+		model.DrawModel(&ShaderProgram,nullptr,nullptr);
 
 
 		//Camera
@@ -106,14 +101,6 @@ int main()
 		ShaderProgram.SetUniform1f("u_Dir_intensity", directionalLightIntensity);
 		ShaderProgram.SetPointLightUniforms(pointlight.pointLights, pointlight.GetLightsCount());
 		ShaderProgram.SetSpotLightUniforms(spotlight.SpotLights, spotlight.GetLightsCount());
-
-
-		//directional light ui
-		light.SetLightDirection(LightDirection.x, LightDirection.y, LightDirection.z);
-		pointlight.SetPointLightUIcontroller(PointLightColor, PointLightPosition, PointLightCount);
-		spotlight.SetSpotLightUIcontroller(SpotLightColor, SpotLightPosition, SpotLightDirection,
-			SpotLightCutOff, SpotLightOuterCutOff,
-			SpotLightCount);
 
 		//imgui window contents
 		{
@@ -148,18 +135,21 @@ int main()
 			}
 			ImGui::End();
 		}
+
+		//directional light ui
+		light.SetLightDirection(LightDirection.x, LightDirection.y, LightDirection.z);
+		pointlight.SetPointLightUIcontroller(PointLightColor, PointLightPosition, PointLightCount);
+		spotlight.SetSpotLightUIcontroller(SpotLightColor, SpotLightPosition, SpotLightDirection,
+			SpotLightCutOff, SpotLightOuterCutOff,
+			SpotLightCount);
+
 		//navigation and control
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		Cl_window.Update();
-
 	}
 
 	//destroy the shader program
-	checker_diffuse.UnBind();
-	checker_specular.UnBind();
-	diffuse.UnBind();
-	specular.UnBind();
 	ShaderProgram.shaderdestroy();
 
 	//exits application

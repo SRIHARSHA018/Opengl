@@ -23,8 +23,6 @@ Mesh::Mesh(PrimitiveType primitive)
 	}
 }
 
-
-
 Mesh::~Mesh()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -45,7 +43,6 @@ void Mesh::x_EnableVertexAttrib()
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, vertexNormals));
 }
-
 
 void Mesh::x_setup_mesh()
 {
@@ -75,8 +72,6 @@ void Mesh::x_InitModelMatrix()
 
 }
 
-
-
 void Mesh::DrawMesh(SJ_engine::SJ_shader::shader* obj, BasicMaterial* matobj, StandardMaterial* standMatobj)
 {
 	obj->UseShaderProgram();
@@ -102,9 +97,9 @@ void Mesh::DrawMesh(SJ_engine::SJ_shader::shader* obj, BasicMaterial* matobj, St
 			glActiveTexture(GL_TEXTURE0 + i); 
 			std::string name = x_textures[i].type;
 			if (name == "u_material.base.diffuse")
-				obj->SetUniform1i(name, i);
+				obj->SetUniform1i(name,i);
 			else if (name == "u_material.base.specular")
-				obj->SetUniform1i(name, i);
+				obj->SetUniform1i(name,i);
 			glBindTexture(GL_TEXTURE_2D, x_textures[i].id);
 		}
 		glActiveTexture(GL_TEXTURE0);

@@ -199,7 +199,7 @@ void main()
 	{
 		result+=CalSpotLight(u_spot_light[i],u_material,v_normal,v_texcoord);
 	}
-	
+
 	gl_FragColor =result;
 
 }

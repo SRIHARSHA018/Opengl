@@ -12,5 +12,6 @@ private:
 
 public:
 	Sj_UI(SJ_engine::Cl_window* obj, const std::string& version);
-
+	void SwapFrames();
+	
 };

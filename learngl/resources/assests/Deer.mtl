@@ -1,0 +1,20 @@
+#
+#
+#
+
+newmtl  Mesh_Deer_body
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ns 96.078430
+map_Kd Deer_body_D.tga
+
+newmtl  Mesh_Deer_horns
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ns 96.078430
+map_Kd Deer_horns_D.tga
+

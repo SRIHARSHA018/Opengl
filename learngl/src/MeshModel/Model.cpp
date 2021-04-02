@@ -1,14 +1,10 @@
 #include "Model.h"
 
-
-
 Model::Model(const std::string& path)
 	:x_path(path)
 {
 	x_LoadModel();
 }
-
-
 
 void Model::x_LoadModel()
 {
@@ -19,6 +15,7 @@ void Model::x_LoadModel()
 		std::cout << "ERROR::scene file is empty" << std::endl;
 		return;
 	}
+
 	x_directory = x_path.substr(0, x_path.find_last_of('/'));
 	this->x_processNode(scene->mRootNode, scene);
 }
@@ -30,6 +27,7 @@ void Model::x_processNode(aiNode* node, const aiScene* scene)
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		this->x_meshes.push_back(this->x_ProcessMesh(mesh,scene));
 	}
+
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		this->x_processNode(node->mChildren[i], scene);
@@ -77,13 +75,9 @@ Mesh Model::x_ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		std::vector<texture> specularMaps = x_LoadMaterialTextures(material, aiTextureType_SPECULAR, "u_material.base.specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
-	MaterialDispatcher(&textures);
 	return Mesh(vertices, indices,textures);
 }
-void Model::MaterialDispatcher(std::vector<texture>* obj)
-{
 
-}
 
 
 std::vector<texture> Model::x_LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
@@ -147,7 +141,6 @@ void Model::DrawModel(SJ_engine::SJ_shader::shader* obj, BasicMaterial* baseMat,
 {
 	for (unsigned int i = 0; i < x_meshes.size(); i++)
 	{
-
 		x_meshes[i].DrawMesh(obj, baseMat, standMat);
 	}
 }

@@ -2,7 +2,6 @@
 #include"src/Shaders/shader.h"
 class Mesh
 {
-
 private:
 
 	//vertex attributes holders
@@ -29,10 +28,7 @@ public:
 	Mesh(PrimitiveType primitive);
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,std::vector<texture> textures);
 	void DrawMesh(SJ_engine::SJ_shader::shader* obj,BasicMaterial* matobj =nullptr,StandardMaterial* standMatobj=nullptr);
-
 	void SetTransformations(const glm::vec3& position,const glm::vec3& rotation,const glm::vec3& scale);
 	void CreateCube();
 	void CreatePlane();
-
-
 };
